@@ -66,10 +66,6 @@ add_action( 'wp_enqueue_scripts', 'pethomescout_scripts' );
  * Real Pages still win; these mappings only run for the matching 404 routes.
  */
 function pethomescout_preview_template_routes( $template ) {
-	if ( ! is_404() ) {
-		return $template;
-	}
-
 	$path = trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
 	if ( 0 === strpos( $path, 'go/' ) ) {
 		$candidate = get_template_directory() . '/page-go-placeholder.php';
