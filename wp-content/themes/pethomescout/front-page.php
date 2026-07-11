@@ -190,6 +190,20 @@ get_header();
                     <span>Pet Owners</span>
                   </div>
                 </div>
+                <div class="ep-badge-item">
+                  <span class="ep-badge-icon">🏆</span>
+                  <div class="ep-badge-text">
+                    <strong>Top Rated</strong>
+                    <span>2026</span>
+                  </div>
+                </div>
+                <div class="ep-badge-item">
+                  <span class="ep-badge-icon">🔄</span>
+                  <div class="ep-badge-text">
+                    <strong>Recently</strong>
+                    <span>Updated</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
