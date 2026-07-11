@@ -71,6 +71,16 @@ function pethomescout_preview_template_routes( $template ) {
 	}
 
 	$path = trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+	if ( 0 === strpos( $path, 'go/' ) ) {
+		$candidate = get_template_directory() . '/page-go-placeholder.php';
+		if ( file_exists( $candidate ) ) {
+			global $wp_query;
+			$wp_query->is_404 = false;
+			$wp_query->is_page = true;
+			status_header( 200 );
+			return $candidate;
+		}
+	}
 	$routes = array(
 		'services-insurance'         => 'page-services-reference.php',
 		'pet-insurance-quotes'       => 'page-pet-insurance-quotes.php',
