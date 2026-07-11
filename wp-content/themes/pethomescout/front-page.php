@@ -574,7 +574,20 @@ get_header();
                 </div>
               </div>
             <?php endwhile; else : ?>
-              <p style="font-size:13px; color:var(--text-muted);">Configure posts in 'reviews' category to display here.</p>
+              <?php foreach ( array(
+                array( 'date' => 'June 1, 2026', 'score' => '8.7', 'title' => 'Eufy X10 Pro Omni Review', 'desc' => 'A powerful all-rounder with smart mapping.', 'link' => home_url('/best-robot-vacuum-for-dog-hair/') ),
+                array( 'date' => 'May 28, 2026', 'score' => '8.9', 'title' => 'Furbo Dog Camera 360 Review', 'desc' => 'The best companion camera for pet parents.', 'link' => '#' ),
+                array( 'date' => 'May 20, 2026', 'score' => '8.3', 'title' => 'Whistle GPS Collar Review', 'desc' => 'Fitness and location tracking system tested.', 'link' => '#' ),
+              ) as $review ) : ?>
+                <div class="feed-item-card" onclick="location.href='<?php echo esc_url( $review['link'] ); ?>'">
+                  <div class="feed-item-img">○</div>
+                  <div class="feed-item-info">
+                    <div class="feed-item-meta"><span><?php echo esc_html( $review['date'] ); ?></span><span style="font-weight:700; color:var(--success);">Score: <?php echo esc_html( $review['score'] ); ?></span></div>
+                    <h4 class="feed-item-title"><a href="<?php echo esc_url( $review['link'] ); ?>"><?php echo esc_html( $review['title'] ); ?></a></h4>
+                    <p style="font-size:12px; color:var(--text-muted);"> <?php echo esc_html( $review['desc'] ); ?></p>
+                  </div>
+                </div>
+              <?php endforeach; ?>
             <?php endif; wp_reset_postdata(); ?>
           </div>
         </div>
@@ -605,7 +618,20 @@ get_header();
                 </div>
               </div>
             <?php endwhile; else : ?>
-              <p style="font-size:13px; color:var(--text-muted);">Configure posts in 'buying-guides' category to display here.</p>
+              <?php foreach ( array(
+                array( 'date' => 'July 2026 Update', 'title' => 'Best Robot Vacuums in America (2026)', 'desc' => 'Our top picks for every home and budget tier.', 'link' => home_url('/best-robot-vacuum-for-dog-hair/') ),
+                array( 'date' => 'June 2026 Update', 'title' => 'Best Pet Cameras for Peace of Mind', 'desc' => 'Keep an eye on dogs and cats from anywhere.', 'link' => '#' ),
+                array( 'date' => 'May 2026 Update', 'title' => 'Smart Pet Home Starter Guide', 'desc' => 'Everything you need to automate pet care.', 'link' => '#' ),
+              ) as $guide ) : ?>
+                <div class="feed-item-card" onclick="location.href='<?php echo esc_url( $guide['link'] ); ?>'">
+                  <div class="feed-item-img">○</div>
+                  <div class="feed-item-info">
+                    <div class="feed-item-meta"><span><?php echo esc_html( $guide['date'] ); ?></span></div>
+                    <h4 class="feed-item-title"><a href="<?php echo esc_url( $guide['link'] ); ?>"><?php echo esc_html( $guide['title'] ); ?></a></h4>
+                    <p style="font-size:12px; color:var(--text-muted);"> <?php echo esc_html( $guide['desc'] ); ?></p>
+                  </div>
+                </div>
+              <?php endforeach; ?>
             <?php endif; wp_reset_postdata(); ?>
           </div>
         </div>
@@ -639,7 +665,17 @@ get_header();
                 </div>
               </div>
             <?php endwhile; else : ?>
-              <p style="font-size:13px; color:var(--text-muted);">Configure posts in 'comparisons' category to display here.</p>
+              <?php foreach ( array(
+                array( 'a' => 'Roborock Q Revo', 'b' => 'Roomba j9+', 'icon' => '🤖' ),
+                array( 'a' => 'Furbo 360', 'b' => 'Eufy Pet Cam', 'icon' => '📷' ),
+                array( 'a' => 'Aqara U100', 'b' => 'Yale Assure L2', 'icon' => '🔒' ),
+              ) as $comparison ) : ?>
+                <div class="vs-row-item" onclick="location.href='<?php echo esc_url( home_url('/best-robot-vacuum-for-dog-hair/') ); ?>'">
+                  <div class="vs-product"><div class="vs-product-thumb"><?php echo esc_html( $comparison['icon'] ); ?></div><span><?php echo esc_html( $comparison['a'] ); ?></span></div>
+                  <span class="vs-divider">VS</span>
+                  <div class="vs-product"><div class="vs-product-thumb"><?php echo esc_html( $comparison['icon'] ); ?></div><span><?php echo esc_html( $comparison['b'] ); ?></span></div>
+                </div>
+              <?php endforeach; ?>
             <?php endif; wp_reset_postdata(); ?>
           </div>
         </div>
