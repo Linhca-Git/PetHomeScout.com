@@ -29,6 +29,7 @@ function pethomescout_assets() {
 	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), '0.2.0', true );
 	wp_enqueue_script( 'pethomescout-lead-demo', get_template_directory_uri() . '/js/lead-demo.js', array( 'pethomescout-main' ), '0.1.0', true );
 	wp_enqueue_script( 'pethomescout-tools', get_template_directory_uri() . '/js/tool.js', array( 'pethomescout-main' ), '0.1.0', true );
+	wp_enqueue_script( 'pethomescout-hub-filter', get_template_directory_uri() . '/js/hub-filter.js', array( 'pethomescout-main' ), '0.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'pethomescout_assets' );
 
@@ -91,6 +92,7 @@ function pethomescout_demo_routes( $template ) {
 		'pet-insurance-quotes'    => 'page-pet-insurance-quotes.php',
 		'mobile-dog-grooming'     => 'page-mobile-dog-grooming.php',
 		'pet-odor-cleaning'       => 'page-pet-odor-cleaning.php',
+		'robot-vacuums-for-pet-hair' => 'page-robot-vacuums-for-pet-hair.php',
 		'smart-tech'              => 'page-smart-tech.php',
 		'robot-vacuum-selector'   => 'page-robot-vacuum-selector.php',
 		'how-we-test'             => 'page-how-we-test.php',
