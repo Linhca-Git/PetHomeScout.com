@@ -11,13 +11,13 @@ Text Domain: pethomescout
 /* PetHomeScout.com - CSS Design System & Global Styles */
 
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&display=swap');
 
 /* CSS Variables */
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-ui: 'Poppins', sans-serif;
+  --font-sans: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'Nunito Sans', system-ui, -apple-system, sans-serif;
 
   /* Premium Color Palette */
   --bg-main: #f8fafc; /* Slate 50 */
@@ -627,6 +627,13 @@ nav ul li a:hover, nav ul li a.active {
   top: calc(var(--header-height) + 20px);
   font-family: var(--font-sans); /* Filter UI always sans-serif */
 }
+
+.filter-panel-heading { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 8px; }
+.filter-panel-heading h2 { margin: 0; }
+.filter-clear { border: 0; background: transparent; color: var(--primary); cursor: pointer; font: 700 12px var(--font-sans); padding: 4px; }
+.filter-section { border-bottom: 1px solid var(--border-color); padding: 10px 0 14px; }
+.filter-section:last-child { border-bottom: 0; padding-bottom: 0; }
+.filter-section h3 { font: 800 13px/1.2 var(--font-ui); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 12px; }
 
 .filter-section {
   margin-bottom: 24px;

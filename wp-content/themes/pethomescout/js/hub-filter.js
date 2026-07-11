@@ -5,6 +5,7 @@
   var status = document.querySelector('[data-filter-status]');
   var categoryChecks = Array.prototype.slice.call(document.querySelectorAll('[data-filter-category]'));
   var merchantChecks = Array.prototype.slice.call(document.querySelectorAll('[data-filter-merchant]'));
+  var clearButton = document.querySelector('[data-filter-clear]');
   var activeFilter = 'all';
 
   function values(checks) {
@@ -40,5 +41,11 @@
     });
   });
   categoryChecks.concat(merchantChecks).forEach(function (check) { check.addEventListener('change', render); });
+  if (clearButton) clearButton.addEventListener('click', function () {
+    categoryChecks.concat(merchantChecks).forEach(function (check) { check.checked = false; });
+    activeFilter = 'all';
+    root.querySelectorAll('[data-filter]').forEach(function (item) { item.classList.toggle('is-active', item.dataset.filter.toLowerCase() === 'all'); });
+    render();
+  });
   render();
 }());
