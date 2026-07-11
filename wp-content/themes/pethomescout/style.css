@@ -18,6 +18,11 @@ Text Domain: pethomescout
   --font-sans: 'Nunito Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Fraunces', Georgia, serif;
   --font-ui: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+  --type-body: 16px;
+  --type-small: 14px;
+  --type-label: 12px;
+  --type-h1: clamp(40px, 5vw, 52px);
+  --type-h2: clamp(28px, 3vw, 34px);
 
   /* Premium Color Palette */
   --bg-main: #f8fafc; /* Slate 50 */
@@ -72,7 +77,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: var(--type-body);
   color: var(--text-main);
   background-color: var(--bg-main);
   line-height: 1.7;
@@ -89,7 +94,7 @@ h1, h2 {
   letter-spacing: -0.01em;
 }
 
-/* H3-H6: Clean Poppins for UI labels, card titles, filter headings */
+/* H3-H6: Friendly sans-serif for UI labels, card titles, and filter headings */
 h3, h4, h5, h6 {
   font-family: var(--font-ui);
   font-weight: 700;
@@ -2814,9 +2819,10 @@ footer {
     gap: 20px;
   }
   .ep-badges-column {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
   }
   .hub-layout {
     grid-template-columns: 1fr;
@@ -2837,6 +2843,16 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* Keep the homepage hierarchy consistent with the design system, including
+   values that remain inline in the content template for editor friendliness. */
+.home .hero-left h1 { font-family: var(--font-display) !important; font-size: var(--type-h1) !important; }
+.home .section-title-area h2,
+.home .tools-section h2,
+.home .editors-picks-section h2 { font-family: var(--font-display) !important; font-size: var(--type-h2) !important; }
+.home .ep-badge-item { min-width: 0; }
+.home .ep-badge-text strong,
+.home .ep-badge-text span { font-family: var(--font-ui); }
 
 @media (max-width: 768px) {
   .hero h1 {
