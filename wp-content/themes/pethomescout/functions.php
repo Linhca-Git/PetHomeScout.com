@@ -48,6 +48,9 @@ function pethomescout_scripts() {
 
 	// Enqueue global main.js.
 	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'pethomescout-lead-demo', get_template_directory_uri() . '/js/lead-demo.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'pethomescout-hub-filter', get_template_directory_uri() . '/js/hub-filter.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'pethomescout-selector', get_template_directory_uri() . '/js/selector.js', array(), '1.0.0', true );
 
 	// Localize script to pass the rest API or admin ajax URLs if needed in the future.
 	wp_localize_script( 'pethomescout-main', 'petHomeScoutData', array(
@@ -57,6 +60,48 @@ function pethomescout_scripts() {
 	) );
 }
 add_action( 'wp_enqueue_scripts', 'pethomescout_scripts' );
+
+/**
+ * Keep the local preview useful before an administrator has created the Pages.
+ * Real Pages still win; these mappings only run for the matching 404 routes.
+ */
+function pethomescout_preview_template_routes( $template ) {
+	if ( ! is_404() ) {
+		return $template;
+	}
+
+	$path = trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+	$routes = array(
+		'services-insurance'         => 'page-services-insurance.php',
+		'pet-insurance-quotes'       => 'page-pet-insurance-quotes.php',
+		'mobile-dog-grooming'        => 'page-mobile-dog-grooming.php',
+		'pet-odor-cleaning'          => 'page-pet-odor-cleaning.php',
+		'cleaning-odor'              => 'page-pet-odor-cleaning.php',
+		'smart-tech'                => 'page-smart-tech.php',
+		'robot-vacuum-selector'      => 'page-robot-vacuum-selector.php',
+		'tool'                       => 'page-robot-vacuum-selector.php',
+		'matchmaker'                => 'page-matchmaker.php',
+		'best-robot-vacuum-for-dog-hair' => 'page-robot-vacuums-for-pet-hair.php',
+		'robot-vacuums-for-pet-hair' => 'page-robot-vacuums-for-pet-hair.php',
+		'family-home'               => 'page-family-home.php',
+		'how-we-test'               => 'page-how-we-test.php',
+		'contact'                   => 'page-contact.php',
+	);
+
+	if ( isset( $routes[ $path ] ) ) {
+		$candidate = get_template_directory() . '/' . $routes[ $path ];
+		if ( file_exists( $candidate ) ) {
+			global $wp_query;
+			$wp_query->is_404 = false;
+			$wp_query->is_page = true;
+			status_header( 200 );
+			return $candidate;
+		}
+	}
+
+	return $template;
+}
+add_filter( 'template_include', 'pethomescout_preview_template_routes', 99 );
 
 /**
  * Helper function to retrieve product affiliate link.
