@@ -24,4 +24,5 @@
 - Keep preview/development deployments noindex, nofollow; production indexing requires an explicit review.
 - WordPress theme work lives under `wp-content/themes/pethomescout/`; do not introduce a page builder.
 - Treat the supplied WordPress handover plan as the implementation source of truth. The earlier Next.js brief is superseded for this project.
+- Treat `docs/EXECUTIVE_KNOWLEDGE_BASE.md` as the canonical source for customer strategy, revenue flows, UI direction, copy tone, and SEO guardrails.
 - Verify relevant behavior locally before handoff. Record remaining assumptions or blockers plainly.

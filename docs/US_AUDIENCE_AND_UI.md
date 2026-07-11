@@ -1,6 +1,6 @@
 # PetHomeScout US Audience & UI Specification
 
-Source: supplied project master knowledge base, Project Version 2026.2.
+Source: supplied project master knowledge base, Project Version 2026.2. Canonical strategy is also maintained in `EXECUTIVE_KNOWLEDGE_BASE.md`.
 
 ## Audience
 
@@ -10,8 +10,8 @@ The product is an independent decision engine, not a generic pet blog. The emoti
 
 ## UI direction
 
-- Use a hybrid editorial/data system: warm serif display headings paired with Inter-like sans-serif UI, specs, tables, and labels.
-- Favor a bright white canvas, pale blue-gray section surfaces, deep navy utility/header bars, cobalt primary actions, green score/success states, and amber disclosure/warning states.
+- Use a hybrid editorial/data system: warm `Fraunces` display headings paired with rounded `Nunito Sans` UI, specs, tables, and labels.
+- Favor a bright white canvas, pale blue-gray section surfaces, deep navy utility/header bars, cobalt primary actions, warm sage success states, soft terracotta accents, and amber disclosure/warning states.
 - Use clear hierarchy, generous whitespace, short scan-friendly summaries, score badges, ranked cards, and lightweight list rows.
 - Use recognizable line-style icons for pets, home, cleaning, safety, insurance, and tools. Avoid childish paw-print decoration, abstract geometric glyphs, coupon styling, and crowded affiliate-blog layouts.
 - Make the primary action visible in the hero. Support quick scanning with score badges, category cards, comparison rows, and a concise disclosure near commercial actions.

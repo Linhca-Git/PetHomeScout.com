@@ -4,8 +4,8 @@
 		<div class="container hero-editorial-grid">
 			<div class="hero-copy-block">
 				<span class="eyebrow">America's independent pet-home authority</span>
-				<h1>Make smarter choices.<br><span>Live better</span> every day.</h1>
-				<p class="hero-copy">Clear buying guides, comparisons, and practical advice for cleaner homes, happier pets, and less buyer's remorse.</p>
+				<h1>Make smarter choices.<br><span>Build a better</span> pet home.</h1>
+				<p class="hero-copy">Independent, data-driven reviews and interactive tools to help pet parents build a cleaner, safer, and happier home environment.</p>
 				<div class="button-row"><a class="button" href="#guides">Explore buying guides <span aria-hidden="true">→</span></a><a class="button button-secondary" href="#categories">Browse categories</a></div>
 				<div class="trust-row"><span><i class="dashicons dashicons-shield"></i> Independent &amp; research-first</span><span><i class="dashicons dashicons-yes-alt"></i> Clear, honest guidance</span><span><i class="dashicons dashicons-lock"></i> Transparent disclosures</span></div>
 			</div>

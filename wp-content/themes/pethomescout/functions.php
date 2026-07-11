@@ -22,7 +22,7 @@ function pethomescout_setup() {
 add_action( 'after_setup_theme', 'pethomescout_setup' );
 
 function pethomescout_assets() {
-	wp_enqueue_style( 'pethomescout-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap', array(), null );
+	wp_enqueue_style( 'pethomescout-fonts', 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700;800&display=swap', array(), null );
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_style( 'pethomescout-style', get_stylesheet_uri(), array( 'pethomescout-fonts', 'dashicons' ), '0.2.0' );
 	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), '0.2.0', true );
