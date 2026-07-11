@@ -1,0 +1,17 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "steps": [
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "PetHomeScout",
+        "blogdescription": "Practical guidance for cleaner, safer, pet-friendly homes."
+      }
+    },
+    {
+      "step": "activateTheme",
+      "themeFolderName": "pethomescout"
+    }
+  ]
+}
