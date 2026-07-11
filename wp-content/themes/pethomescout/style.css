@@ -75,14 +75,24 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: var(--font-sans);
   font-size: var(--type-body);
   color: var(--text-main);
   background-color: var(--bg-main);
-  line-height: 1.7;
+  /* Keep parser-inserted whitespace from creating a visible line before the utility bar. */
+  line-height: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body > * {
+  line-height: 1.7;
 }
 
 /* H1 & H2: Warm serif for editorial trust and magazine-style presence */
@@ -545,7 +555,7 @@ nav ul li a:hover, nav ul li a.active {
 
 .article-body p {
   color: var(--text-muted);
-  font-size: 15px;
+  font-size: 16px;
   margin-bottom: 20px;
   flex-grow: 1;
 }
@@ -953,7 +963,7 @@ nav ul li a:hover, nav ul li a.active {
 .family-product-art { min-height: 220px; display: grid; place-items: center; border-radius: 14px; background: var(--surface-soft, #f7f9fc); color: var(--primary, #2563eb); font-size: 120px; }
 .family-product-card .tag { display: inline-block; margin: 0 7px 12px 0; padding: 6px 9px; border-radius: 6px; background: #eaf7ee; color: #15803d; font-size: 11px; font-weight: 800; text-transform: uppercase; }
 .family-product-card h2 { margin: 0 0 12px; font-size: clamp(24px, 3vw, 31px); }
-.family-product-card p { color: var(--text-muted, #52627a); line-height: 1.65; }
+.family-product-card p { color: var(--text-muted, #52627a); font-size: 16px; line-height: 1.65; }
 .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px 24px; margin: 22px 0; padding: 18px 0; border-top: 1px solid var(--border, #dbe3ef); border-bottom: 1px solid var(--border, #dbe3ef); color: #8a9ab2; }
 .spec-grid b { float: right; color: var(--text-main, #12213a); }
 .buy-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 18px; border-radius: 14px; background: var(--surface-soft, #f7f9fc); }
@@ -967,7 +977,7 @@ nav ul li a:hover, nav ul li a.active {
 .lead-page .hub-hero h1 { max-width: 920px; }
 .lead-page .section { padding: 48px 0 76px; }
 .lead-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr); gap: 48px; align-items: start; }
-.lead-copy { color: var(--text-muted); font-size: 15px; line-height: 1.65; }
+.lead-copy { color: var(--text-muted); font-size: 16px; line-height: 1.65; }
 .lead-copy h2 { color: var(--text-main); margin-bottom: 14px; }
 .lead-copy ul { margin: 0 0 20px; padding-left: 20px; }
 .disclosure-note { border-left: 4px solid var(--warning, #f59e0b); background: #fff8e8; border-radius: 10px; padding: 15px 16px; font-size: 13px; }
@@ -1430,6 +1440,7 @@ footer {
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin: 0;
 }
 
 .top-bar-container {
