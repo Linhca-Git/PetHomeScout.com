@@ -103,6 +103,14 @@ function pethomescout_preview_template_routes( $template ) {
 }
 add_filter( 'template_include', 'pethomescout_preview_template_routes', 99 );
 
+function pethomescout_preview_document_title( $parts ) {
+	$path = trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+	$titles = array( 'services-insurance' => 'Get Custom Pet Insurance & Care Quotes in 2 Minutes', 'family-home' => 'Pet-Friendly Family Home & Safety Reviews', 'smart-tech' => 'Pet Smart Technology & Smart Care', 'cleaning-odor' => 'Pet Cleaning, Stains & Odor Control Hub', 'best-robot-vacuum-for-dog-hair' => 'The Best Robot Vacuums for Dog Hair (2026 Reviews)', 'robot-vacuums-for-pet-hair' => 'The Best Robot Vacuums for Dog Hair (2026 Reviews)', 'tool' => 'Robot Vacuum Matchmaker', 'robot-vacuum-selector' => 'Robot Vacuum Matchmaker', 'contact' => 'Contact PetHomeScout' );
+	if ( isset( $titles[ $path ] ) ) { $parts['title'] = $titles[ $path ]; $parts['site'] = 'PetHomeScout'; }
+	return $parts;
+}
+add_filter( 'document_title_parts', 'pethomescout_preview_document_title' );
+
 /**
  * Helper function to retrieve product affiliate link.
  * Automatically checks for custom fields and maps them to a secure local redirect pathway (/go/slug).
