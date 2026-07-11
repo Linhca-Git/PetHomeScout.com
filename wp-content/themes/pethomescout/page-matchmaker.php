@@ -53,7 +53,7 @@ if ( $query->have_posts() ) {
   <div class="hub-header" style="margin-bottom: 30px;">
     <div class="container">
       <span class="tool-badge">Decision Tool page</span>
-      <h1 style="font-size: 38px; margin-top: 8px; margin-bottom: 12px; font-family: var(--font-display);"><?php echo esc_html( get_the_title() ? get_the_title() : 'Robot Vacuum Selector & Matchmaker' ); ?></h1>
+      <h1 style="font-size: 38px; margin-top: 8px; margin-bottom: 12px; font-family: var(--font-display);">Robot Vacuum Selector &amp; Matchmaker</h1>
       <div style="color: var(--text-muted); max-width: 800px; font-size: 16px;">
         <?php the_content(); ?>
       </div>
