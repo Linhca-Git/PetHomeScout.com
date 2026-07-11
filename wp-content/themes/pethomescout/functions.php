@@ -1,115 +1,223 @@
 <?php
 /**
- * PetHomeScout theme setup and shared helpers.
+ * PetHomeScout Functions and Definitions
+ *
+ * @package PetHomeScout
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+if ( ! function_exists( 'pethomescout_setup' ) ) :
+	/**
+	 * Sets up theme defaults and registers support for various WordPress features.
+	 */
+	function pethomescout_setup() {
+		// Add default RSS feed links to head.
+		add_theme_support( 'automatic-feed-links' );
 
-function pethomescout_setup() {
-	add_theme_support( 'automatic-feed-links' );
-	add_theme_support( 'title-tag' );
-	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
-	register_nav_menus(
-		array(
-			'primary' => __( 'Primary Menu', 'pethomescout' ),
-			'footer'  => __( 'Footer Menu', 'pethomescout' ),
-		)
-	);
-}
+		// Let WordPress manage the document title.
+		add_theme_support( 'title-tag' );
+
+		// Enable support for Post Thumbnails on posts and pages.
+		add_theme_support( 'post-thumbnails' );
+
+		// Register navigation menus.
+		register_nav_menus( array(
+			'primary' => esc_html__( 'Primary Menu', 'pethomescout' ),
+			'footer'  => esc_html__( 'Footer Menu', 'pethomescout' ),
+		) );
+
+		// Switch default core markup for search form, comment form, and comments to output valid HTML5.
+		add_theme_support( 'html5', array(
+			'search-form',
+			'comment-form',
+			'comment-list',
+			'gallery',
+			'caption',
+			'style',
+			'script',
+		) );
+	}
+endif;
 add_action( 'after_setup_theme', 'pethomescout_setup' );
 
-function pethomescout_assets() {
-	wp_enqueue_style( 'pethomescout-fonts', 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700;800&display=swap', array(), null );
-	wp_enqueue_style( 'dashicons' );
-	wp_enqueue_style( 'pethomescout-style', get_stylesheet_uri(), array( 'pethomescout-fonts', 'dashicons' ), '0.2.0' );
-	wp_enqueue_style( 'pethomescout-mvp', get_template_directory_uri() . '/css/mvp.css', array( 'pethomescout-style' ), '0.1.0' );
-	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), '0.2.0', true );
-	wp_enqueue_script( 'pethomescout-lead-demo', get_template_directory_uri() . '/js/lead-demo.js', array( 'pethomescout-main' ), '0.1.0', true );
-	wp_enqueue_script( 'pethomescout-tools', get_template_directory_uri() . '/js/tool.js', array( 'pethomescout-main' ), '0.1.0', true );
-	wp_enqueue_script( 'pethomescout-hub-filter', get_template_directory_uri() . '/js/hub-filter.js', array( 'pethomescout-main' ), '0.1.0', true );
-}
-add_action( 'wp_enqueue_scripts', 'pethomescout_assets' );
+/**
+ * Enqueue scripts and styles.
+ */
+function pethomescout_scripts() {
+	// Enqueue parent stylesheet.
+	wp_enqueue_style( 'pethomescout-style', get_stylesheet_uri(), array(), '1.0.0' );
 
-function pethomescout_primary_fallback() {
-	$items = array(
-		'Robot Vacuums' => '/robot-vacuums-for-pet-hair/',
-		'Cleaning' => '/pet-odor-cleaning/',
-		'Smart Pet Home' => '/smart-pet-home/',
-		'Dog Safety' => '/dog-safety-tech/',
-		'Pet Insurance' => '/pet-insurance/',
-		'Pet Services' => '/pet-services/',
-		'Tools' => '/tools/',
-	);
-	echo '<ul>';
-	foreach ( $items as $label => $path ) {
-		echo '<li><a href="' . esc_url( home_url( $path ) ) . '">' . esc_html( $label ) . '</a></li>';
-	}
-	echo '</ul>';
-}
+	// Enqueue global main.js.
+	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), '1.0.0', true );
 
-function pethomescout_footer_fallback() {
-	echo '<ul><li><a href="' . esc_url( home_url( '/about/' ) ) . '">About</a></li><li><a href="' . esc_url( home_url( '/how-we-test/' ) ) . '">How we test</a></li><li><a href="' . esc_url( home_url( '/editorial-policy/' ) ) . '">Editorial policy</a></li></ul>';
-}
-
-function pethomescout_register_content_types() {
-	register_post_type( 'pet_product', array(
-		'labels'       => array( 'name' => __( 'Pet Products', 'pethomescout' ), 'singular_name' => __( 'Pet Product', 'pethomescout' ) ),
-		'public'       => true,
-		'show_in_rest' => true,
-		'menu_icon'    => 'dashicons-products',
-		'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
-		'rewrite'      => array( 'slug' => 'products' ),
-	) );
-	register_post_type( 'pet_lead', array(
-		'labels'        => array( 'name' => __( 'Pet Leads', 'pethomescout' ), 'singular_name' => __( 'Pet Lead', 'pethomescout' ) ),
-		'public'        => false,
-		'show_ui'       => true,
-		'show_in_rest'  => false,
-		'menu_icon'     => 'dashicons-id-alt',
-		'supports'      => array( 'title' ),
+	// Localize script to pass the rest API or admin ajax URLs if needed in the future.
+	wp_localize_script( 'pethomescout-main', 'petHomeScoutData', array(
+		'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+		'themeUri' => get_template_directory_uri(),
+		'leadNonce' => wp_create_nonce( 'pethomescout_lead' ),
 	) );
 }
-add_action( 'init', 'pethomescout_register_content_types' );
+add_action( 'wp_enqueue_scripts', 'pethomescout_scripts' );
 
-function pethomescout_register_product_meta() {
-	$keys = array( 'scout_score', 'evidence_status', 'last_reviewed', 'test_record_id', 'max_area', 'floor_rating_carpet', 'floor_rating_hardwood', 'has_ai', 'merchant_slug', 'card_description' );
-	foreach ( $keys as $key ) {
-		register_post_meta( 'pet_product', $key, array( 'single' => true, 'show_in_rest' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
-	}
-}
-add_action( 'init', 'pethomescout_register_product_meta' );
-
-function pethomescout_demo_routes( $template ) {
-	if ( ! is_404() ) {
-		return $template;
-	}
-	$path = trim( wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
-	$routes = array(
-		'services-insurance'      => 'page-services-insurance.php',
-		'pet-insurance-quotes'    => 'page-pet-insurance-quotes.php',
-		'mobile-dog-grooming'     => 'page-mobile-dog-grooming.php',
-		'pet-odor-cleaning'       => 'page-pet-odor-cleaning.php',
-		'robot-vacuums-for-pet-hair' => 'page-robot-vacuums-for-pet-hair.php',
-		'smart-tech'              => 'page-smart-tech.php',
-		'robot-vacuum-selector'   => 'page-robot-vacuum-selector.php',
-		'how-we-test'             => 'page-how-we-test.php',
-	);
-	if ( isset( $routes[ $path ] ) ) {
-		status_header( 200 );
-		return get_template_directory() . '/' . $routes[ $path ];
-	}
-	return $template;
-}
-add_filter( 'template_include', 'pethomescout_demo_routes' );
-
+/**
+ * Helper function to retrieve product affiliate link.
+ * Automatically checks for custom fields and maps them to a secure local redirect pathway (/go/slug).
+ */
 function pethomescout_get_affiliate_link( $product_id, $merchant = 'chewy' ) {
-	$url = get_post_meta( $product_id, $merchant . '_url', true );
-	if ( empty( $url ) ) {
-		return '';
+	// Read custom field values (support standard WordPress Custom Fields or ACF)
+	$custom_url = get_post_meta( $product_id, "affiliate_url_{$merchant}", true );
+	if ( empty( $custom_url ) ) {
+		// Fallback to standard field
+		$custom_url = get_post_meta( $product_id, "{$merchant}_url", true );
 	}
-	$slug = get_post_field( 'post_name', $product_id );
-	return esc_url( home_url( '/go/' . sanitize_title( $slug . '-' . $merchant ) . '/' ) );
+
+	if ( ! empty( $custom_url ) ) {
+		// If direct link exists, we route through our local cloaked structure /go/slug
+		// Pretty Links / RankMath will catch this or we can manage redirects in WP
+		$post_slug = get_post_field( 'post_name', $product_id );
+		return esc_url( home_url( "/go/{$post_slug}-{$merchant}/" ) );
+	}
+
+	// Fallback to general redirect if nothing is set
+	return esc_url( home_url( "/go/{$merchant}/" ) );
 }
+
+/**
+ * Helper to render dynamic product specifications table.
+ * Retrieves custom meta keys and builds key-value lists.
+ */
+function pethomescout_get_product_specs( $product_id ) {
+	$specs = array();
+	
+	// Check if ACF spec fields or standard WP custom fields are defined
+	$spec_keys = array(
+		'suction_power'    => 'Suction Power',
+		'anti_tangle'      => 'Anti-Tangle',
+		'obstacle_avoid'   => 'Obstacle Avoid',
+		'mop_wash'         => 'Mop Wash',
+		'material'         => 'Material',
+		'claw_rating'      => 'Claw Rating',
+		'sofa_length'      => 'Sofa Length',
+		'warranty'         => 'Warranty',
+		'height'           => 'Height',
+		'width_range'      => 'Width range',
+		'lock_type'        => 'Lock Type',
+		'finish'           => 'Finish',
+		'filter_grade'     => 'Filter Grade',
+		'room_coverage'    => 'Room Coverage',
+		'noise_level'      => 'Noise Level',
+		'uvc_mode'         => 'UVC Mode',
+	);
+
+	foreach ( $spec_keys as $meta_key => $label ) {
+		$value = get_post_meta( $product_id, $meta_key, true );
+		if ( ! empty( $value ) ) {
+			$specs[ $label ] = $value;
+		}
+	}
+
+	// Fallback dynamic ACF repeater mapping if defined
+	if ( function_exists( 'get_field' ) ) {
+		$acf_specs = get_field( 'product_specifications', $product_id );
+		if ( is_array( $acf_specs ) ) {
+			foreach ( $acf_specs as $row ) {
+				if ( ! empty( $row['label'] ) && ! empty( $row['value'] ) ) {
+					$specs[ $row['label'] ] = $row['value'];
+				}
+			}
+		}
+	}
+
+	return $specs;
+}
+
+/**
+ * AJAX Handler for Multi-step Lead Form Submission
+ * Integrates lead form securely with the WordPress backend database.
+ */
+function pethomescout_handle_lead_submission() {
+	if ( ! check_ajax_referer( 'pethomescout_lead', 'nonce', false ) ) {
+		wp_send_json_error( array( 'message' => 'This form session has expired. Please refresh and try again.' ), 403 );
+	}
+
+	// Require explicit TCPA consent before any lead is stored or emailed.
+	if ( empty( $_POST['consentCheck'] ) ) {
+		wp_send_json_error( array( 'message' => 'Please confirm consent before requesting quotes.' ), 400 );
+	}
+
+	if ( empty( $_POST['email'] ) || empty( $_POST['fullName'] ) ) {
+		wp_send_json_error( array( 'message' => 'Required fields are missing.' ) );
+	}
+
+	$fullName     = sanitize_text_field( $_POST['fullName'] );
+	$email        = sanitize_email( $_POST['email'] );
+	$phone        = sanitize_text_field( $_POST['phone'] );
+	$zipCode      = sanitize_text_field( $_POST['zipCode'] );
+	$petType      = sanitize_text_field( $_POST['petType'] );
+	$petAge       = sanitize_text_field( $_POST['petAge'] );
+	$coverageNeed = sanitize_text_field( $_POST['coverageNeed'] );
+	$consent      = 1;
+
+	// In a real WP setup, we can write this into a custom table,
+	// save it as a Custom Post Type "Lead", or dispatch via Webhook/Email.
+	
+	// Create custom post type record "Lead"
+	$lead_id = wp_insert_post( array(
+		'post_title'   => sprintf( 'Lead from %s (%s)', $fullName, $email ),
+		'post_type'    => 'pet_lead',
+		'post_status'  => 'private',
+	) );
+
+	if ( $lead_id && ! is_wp_error( $lead_id ) ) {
+		update_post_meta( $lead_id, 'lead_full_name', $fullName );
+		update_post_meta( $lead_id, 'lead_email', $email );
+		update_post_meta( $lead_id, 'lead_phone', $phone );
+		update_post_meta( $lead_id, 'lead_zip_code', $zipCode );
+		update_post_meta( $lead_id, 'lead_pet_type', $petType );
+		update_post_meta( $lead_id, 'lead_pet_age', $petAge );
+		update_post_meta( $lead_id, 'lead_coverage_need', $coverageNeed );
+		update_post_meta( $lead_id, 'lead_tcpa_consent', $consent );
+
+		// Send email notifications to editor/partners
+		$to      = get_option( 'admin_email' );
+		$subject = 'New PetHomeScout Lead Received';
+		$body    = "Name: $fullName\nEmail: $email\nPhone: $phone\nZIP: $zipCode\nPet: $petType ($petAge)\nCoverage: $coverageNeed\nTCPA Consented: Yes\n";
+		wp_mail( $to, $subject, $body );
+
+		wp_send_json_success( array( 'message' => 'Quotes generated successfully!' ) );
+	}
+
+	wp_send_json_error( array( 'message' => 'Unable to save lead. Please try again.' ) );
+}
+add_action( 'wp_ajax_submit_pet_lead', 'pethomescout_handle_lead_submission' );
+add_action( 'wp_ajax_nopriv_submit_pet_lead', 'pethomescout_handle_lead_submission' );
+
+/**
+ * Register Custom Post Type "Leads" and "Products" for backend convenience.
+ */
+function pethomescout_register_post_types() {
+	// Register Leads post type
+	register_post_type( 'pet_lead', array(
+		'labels'      => array(
+			'name'          => __( 'Leads', 'pethomescout' ),
+			'singular_name' => __( 'Lead', 'pethomescout' ),
+		),
+		'public'      => false,
+		'show_ui'     => true,
+		'supports'    => array( 'title' ),
+		'menu_icon'   => 'dashicons-id-alt',
+	) );
+
+	// Register Products post type (Optional: if they want to manage products separately from posts)
+	register_post_type( 'pet_product', array(
+		'labels'      => array(
+			'name'          => __( 'Products Database', 'pethomescout' ),
+			'singular_name' => __( 'Product', 'pethomescout' ),
+		),
+		'public'      => true,
+		'has_archive' => true,
+		'supports'    => array( 'title', 'thumbnail', 'excerpt' ),
+		'menu_icon'   => 'dashicons-products',
+		'rewrite'     => array( 'slug' => 'products' ),
+	) );
+}
+add_action( 'init', 'pethomescout_register_post_types' );
