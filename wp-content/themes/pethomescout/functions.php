@@ -72,7 +72,7 @@ function pethomescout_preview_template_routes( $template ) {
 
 	$path = trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
 	$routes = array(
-		'services-insurance'         => 'page-services-insurance.php',
+		'services-insurance'         => 'page-services-reference.php',
 		'pet-insurance-quotes'       => 'page-pet-insurance-quotes.php',
 		'mobile-dog-grooming'        => 'page-mobile-dog-grooming.php',
 		'pet-odor-cleaning'          => 'page-pet-odor-cleaning.php',
@@ -81,8 +81,8 @@ function pethomescout_preview_template_routes( $template ) {
 		'robot-vacuum-selector'      => 'page-robot-vacuum-selector.php',
 		'tool'                       => 'page-tool-matchmaker.php',
 		'matchmaker'                => 'page-matchmaker.php',
-		'best-robot-vacuum-for-dog-hair' => 'page-robot-vacuums-for-pet-hair.php',
-		'robot-vacuums-for-pet-hair' => 'page-robot-vacuums-for-pet-hair.php',
+		'best-robot-vacuum-for-dog-hair' => 'page-vacuum-reviews.php',
+		'robot-vacuums-for-pet-hair' => 'page-vacuum-reviews.php',
 		'family-home'               => 'page-family-home.php',
 		'how-we-test'               => 'page-how-we-test.php',
 		'contact'                   => 'page-contact.php',
