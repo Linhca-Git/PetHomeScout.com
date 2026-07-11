@@ -4,7 +4,7 @@
 
 PetHomeScout.com is a US-English, USD-focused platform for product research, comparisons, recommendation tools, and pet-service lead generation. Its positioning is: **Practical product research and service guides for cleaner, safer, pet-friendly homes.**
 
-It is not a general pet blog, a WordPress site, or a multi-country property-search product.
+It is not a general pet blog, a multi-country property-search product, or a coupon-style affiliate site. It is implemented as a custom WordPress theme.
 
 ## Initial product pillars
 
@@ -53,9 +53,8 @@ The homepage should lead with buying guides and service discovery. Build accessi
 
 ## Proposed delivery sequence
 
-1. Approve MVP scope, design direction, and first conversion paths.
-2. Scaffold the Next.js foundation, design tokens, data types, SEO/indexing utilities, and core layout.
-3. Build the homepage, core reusable components, and the robot-vacuum hub.
-4. Build the three commercial/editorial page templates plus demo lead forms and redirects.
-5. Build the selector tool, trust/legal pages, content data, docs, and quality checks.
-6. Deploy a noindex Vercel preview for visual/SEO QA; production only after review.
+1. Establish the custom WordPress theme, design tokens, templates, CPTs/ACF metadata, and core layout.
+2. Build the Services & Insurance hub and demo conversion flows without storing personal data.
+3. Build the Smart Tech comparison/selector proof path and internal `/go/` placeholder architecture.
+4. Add methodology, founder-test rubric, legal/trust pages, event hooks, and quality checks.
+5. Review locally in WordPress Playground, then select a password-protected US-hosted WordPress staging environment with noindex enabled.

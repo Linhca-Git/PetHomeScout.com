@@ -1,0 +1,19 @@
+{
+  "key": "group_pethomescout_product_evidence",
+  "title": "PetHomeScout Product Evidence",
+  "fields": [
+    {"key":"field_scout_score","label":"ScoutScore","name":"scout_score","type":"number","min":1,"max":10,"step":0.1},
+    {"key":"field_evidence_status","label":"Evidence Status","name":"evidence_status","type":"select","choices":{"research-led":"Research-led","founder-tested":"Founder-tested"}},
+    {"key":"field_last_reviewed","label":"Last Reviewed","name":"last_reviewed","type":"date_picker","return_format":"F j, Y"},
+    {"key":"field_test_record_id","label":"Founder Test Record ID","name":"test_record_id","type":"text"},
+    {"key":"field_max_area","label":"Max Area (sq ft)","name":"max_area","type":"number"},
+    {"key":"field_carpet","label":"Carpet Rating","name":"floor_rating_carpet","type":"number","min":1,"max":10},
+    {"key":"field_hardwood","label":"Hardwood Rating","name":"floor_rating_hardwood","type":"number","min":1,"max":10},
+    {"key":"field_ai","label":"Has AI","name":"has_ai","type":"true_false"},
+    {"key":"field_merchant","label":"Merchant Slug","name":"merchant_slug","type":"text"},
+    {"key":"field_description","label":"Card Description","name":"card_description","type":"textarea"}
+  ],
+  "location": [[{"param":"post_type","operator":"==","value":"pet_product"}]],
+  "active": true,
+  "show_in_rest": 1
+}

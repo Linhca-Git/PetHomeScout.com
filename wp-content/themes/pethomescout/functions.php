@@ -26,6 +26,8 @@ function pethomescout_assets() {
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_style( 'pethomescout-style', get_stylesheet_uri(), array( 'pethomescout-fonts', 'dashicons' ), '0.2.0' );
 	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), '0.2.0', true );
+	wp_enqueue_script( 'pethomescout-lead-demo', get_template_directory_uri() . '/js/lead-demo.js', array( 'pethomescout-main' ), '0.1.0', true );
+	wp_enqueue_script( 'pethomescout-tools', get_template_directory_uri() . '/js/tool.js', array( 'pethomescout-main' ), '0.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'pethomescout_assets' );
 
@@ -69,6 +71,35 @@ function pethomescout_register_content_types() {
 	) );
 }
 add_action( 'init', 'pethomescout_register_content_types' );
+
+function pethomescout_register_product_meta() {
+	$keys = array( 'scout_score', 'evidence_status', 'last_reviewed', 'test_record_id', 'max_area', 'floor_rating_carpet', 'floor_rating_hardwood', 'has_ai', 'merchant_slug', 'card_description' );
+	foreach ( $keys as $key ) {
+		register_post_meta( 'pet_product', $key, array( 'single' => true, 'show_in_rest' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
+	}
+}
+add_action( 'init', 'pethomescout_register_product_meta' );
+
+function pethomescout_demo_routes( $template ) {
+	if ( ! is_404() ) {
+		return $template;
+	}
+	$path = trim( wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+	$routes = array(
+		'services-insurance'      => 'page-services-insurance.php',
+		'pet-insurance-quotes'    => 'page-pet-insurance-quotes.php',
+		'mobile-dog-grooming'     => 'page-mobile-dog-grooming.php',
+		'smart-tech'              => 'page-smart-tech.php',
+		'robot-vacuum-selector'   => 'page-robot-vacuum-selector.php',
+		'how-we-test'             => 'page-how-we-test.php',
+	);
+	if ( isset( $routes[ $path ] ) ) {
+		status_header( 200 );
+		return get_template_directory() . '/' . $routes[ $path ];
+	}
+	return $template;
+}
+add_filter( 'template_include', 'pethomescout_demo_routes' );
 
 function pethomescout_get_affiliate_link( $product_id, $merchant = 'chewy' ) {
 	$url = get_post_meta( $product_id, $merchant . '_url', true );
