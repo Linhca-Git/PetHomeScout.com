@@ -585,6 +585,38 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 /* Interactive Filter Bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 28px;
+}
+
+.filter-bar button {
+  appearance: none;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  font: 600 13px/1.2 var(--font-sans);
+  padding: 10px 16px;
+  transition: var(--transition);
+}
+
+.filter-bar button:hover,
+.filter-bar button:focus-visible,
+.filter-bar button.is-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.filter-bar button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.24);
+  outline-offset: 2px;
+}
+
 .filter-sidebar {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
