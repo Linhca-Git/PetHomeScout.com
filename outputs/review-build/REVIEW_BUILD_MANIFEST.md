@@ -5,6 +5,7 @@
 - `pethomescout-review-build.zip` — WordPress Playground blueprint, theme ZIP, and review documentation.
 - `pethomescout-theme.zip` — installable theme archive.
 - `playground-blueprint.json` — imports WordPress, activates ACF, and activates the PetHomeScout theme.
+- `playground-blueprint-public.json` — public review variant that installs the theme ZIP from the GitHub review branch.
 - The review bundle contains the complete `docs/` directory and `review-reports/` directory.
 - `docs/CHANGE_SUMMARY.md` — files changed since the previous package, blocker fixes, and limitations.
 
