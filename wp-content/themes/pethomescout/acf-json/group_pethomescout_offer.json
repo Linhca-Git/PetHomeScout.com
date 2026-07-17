@@ -1,0 +1,18 @@
+{
+  "key": "group_pethomescout_offer",
+  "title": "PetHomeScout Offer Record",
+  "fields": [
+    {"key":"field_offer_product","label":"Related Product","name":"related_product","type":"post_object","post_type":["pet_product"],"return_format":"id","ui":1},
+    {"key":"field_offer_merchant","label":"Related Merchant","name":"related_merchant","type":"post_object","post_type":["merchant"],"return_format":"id","ui":1},
+    {"key":"field_offer_destination","label":"Destination URL","name":"destination_url","type":"url","instructions":"Store only after partner approval. Never render directly in content."},
+    {"key":"field_offer_backup","label":"Backup Destination URL","name":"backup_destination","type":"url"},
+    {"key":"field_offer_status","label":"Offer Status","name":"offer_status","type":"select","choices":{"pending":"Pending","approved":"Approved","paused":"Paused","rejected":"Rejected"}},
+    {"key":"field_offer_commission","label":"Commission Notes","name":"commission_notes","type":"textarea","rows":3},
+    {"key":"field_offer_cookie","label":"Cookie Window","name":"cookie_window","type":"text"},
+    {"key":"field_offer_price","label":"Display Price","name":"display_price","type":"text","instructions":"Optional. Include currency and only publish when source and last-checked date are documented."},
+    {"key":"field_offer_last_checked","label":"Last Checked","name":"last_checked","type":"date_picker","return_format":"Y-m-d","display_format":"F j, Y"}
+  ],
+  "location": [[{"param":"post_type","operator":"==","value":"offer"}]],
+  "active": true,
+  "show_in_rest": 0
+}

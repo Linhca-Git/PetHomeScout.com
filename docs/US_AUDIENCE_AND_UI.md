@@ -20,14 +20,14 @@ The product is an independent decision engine, not a generic pet blog. The emoti
 ## Initial homepage composition
 
 1. Navy utility bar with US edition/context.
-2. White navigation header with Reviews, Buying Guides, Comparisons, Categories, Product Database, Deals, Blog, and newsletter CTA.
-3. Two-column hero: authority headline, two CTAs, trust signals, and a featured product/guide card with image, score, and editorial pick label.
-4. Explore Categories rail.
-5. Four-card Editor's Picks grid with rank and score badges.
-6. Three lightweight list columns: Latest Reviews, Buying Guides, Popular Comparisons.
-7. Trust/editorial methodology section.
-8. Navy newsletter CTA.
-9. Footer with disclosure, editorial policy, privacy, contact, and CCPA/Do Not Sell or Share links.
+2. White navigation header with the four MVP hubs: Family Home, Smart Tech, Cleaning & Odor, and Services & Insurance, plus methodology access.
+3. Two-column hero: authority headline, two CTAs, trust signals, and a featured decision path that avoids unverified scores or testing claims.
+4. Explore Categories rail for the four lifecycle hubs.
+5. Services & Insurance conversion block and Smart Tech affiliate proof path.
+6. Lightweight links to available guides, tools, and methodology-backed pages only.
+7. Trust/editorial methodology section with evidence labels.
+8. Disabled newsletter preview only if clearly marked as non-functional in the MVP.
+9. Footer with real disclosure, editorial policy, privacy, contact, and Do Not Sell or Share links.
 
 ## Conversion and trust rules
 

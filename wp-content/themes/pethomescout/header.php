@@ -5,21 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<?php
+$pethomescout_body_path         = function_exists( 'pethomescout_current_path' ) ? pethomescout_current_path() : '';
+$pethomescout_body_path_parts   = array_values( array_filter( explode( '/', $pethomescout_body_path ) ) );
+$pethomescout_body_content_type = '' === $pethomescout_body_path ? 'home' : ( $pethomescout_body_path_parts[0] ?? 'page' );
+if ( 'go' === $pethomescout_body_content_type ) {
+  $pethomescout_body_content_type = 'affiliate_pathway';
+}
+?>
+<body <?php body_class(); ?> data-content-type="<?php echo esc_attr( $pethomescout_body_content_type ); ?>">
 
   <?php wp_body_open(); ?>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- Top Utility Bar -->
   <div class="top-bar">
     <div class="container top-bar-container">
       <div class="top-bar-left">
-        <?php bloginfo('name'); ?> &bull; INDEPENDENT PET TECHNOLOGY AUTHORITY
+        <?php bloginfo('name'); ?> &bull; INDEPENDENT GUIDANCE FOR PET-FRIENDLY HOMES
       </div>
       <div class="top-bar-right">
-        <a href="<?php echo esc_url( home_url( '/smart-tech/' ) ); ?>">Reviews</a>
-        <a href="<?php echo esc_url( home_url( '/best-robot-vacuum-for-dog-hair/' ) ); ?>">Buying Guides</a>
-        <a href="<?php echo esc_url( home_url( '/tool/' ) ); ?>">Product Database</a>
-        <a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>">Deals</a>
+        <a href="<?php echo esc_url( home_url( '/smart-tech/' ) ); ?>">Smart Tech</a>
+        <a href="<?php echo esc_url( home_url( '/cleaning-odor/' ) ); ?>">Cleaning & Odor</a>
+        <a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>">Services & Insurance</a>
+        <a href="<?php echo esc_url( home_url( '/how-we-test/' ) ); ?>">How We Test</a>
         <div class="country-selector">
           <span style="font-size:14px;">🇺🇸</span>
           <span>United States (USD)</span>
@@ -39,7 +49,7 @@
         PetHome<span>Scout</span>
       </a>
       
-      <nav>
+      <nav aria-label="Primary navigation">
         <?php
         if ( has_nav_menu( 'primary' ) ) {
           wp_nav_menu( array(
@@ -65,8 +75,12 @@
       </nav>
 
       <div class="header-actions">
-        <a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>" class="btn btn-secondary">Get Quotes</a>
-        <a href="#newsletter-signup" class="btn btn-primary">Newsletter</a>
+        <a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>" class="btn btn-secondary">Preview service flow</a>
+        <a href="<?php echo esc_url( home_url( '/pet-tech-selector/' ) ); ?>" class="btn btn-primary">Use selector</a>
       </div>
     </div>
   </header>
+
+  <?php if ( '' !== $pethomescout_body_path ) : ?>
+    <span id="main-content" tabindex="-1"></span>
+  <?php endif; ?>

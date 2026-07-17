@@ -3,21 +3,18 @@ Theme Name: PetHomeScout
 Theme URI: https://pethomescout.com/
 Author: Antigravity
 Author URI: https://pethomescout.com/
-Description: Custom high-performance theme for PetHomeScout.com with Magazine + Data hybrid aesthetics, fully E-E-A-T and TCPA compliant.
+Description: Custom performance-minded theme for PetHomeScout.com with Magazine + Data hybrid aesthetics and trust-first compliance patterns.
 Version: 1.0.0
 Text Domain: pethomescout
 */
 
 /* PetHomeScout.com - CSS Design System & Global Styles */
 
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Poppins:wght@400;500;600;700;800&display=swap');
-
 /* CSS Variables */
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-ui: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'Nunito Sans', system-ui, -apple-system, sans-serif;
   --type-body: 16px;
   --type-small: 14px;
   --type-label: 12px;
@@ -64,6 +61,28 @@ Text Domain: pethomescout
   --transition: all 0.2s ease-in-out;
 }
 
+.evidence-badge { display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 999px; padding: 4px 9px; color: var(--text-muted); font-size: 12px; font-weight: 800; }
+.related-guides { margin: 42px 0 0; padding-top: 28px; border-top: 1px solid var(--border-color); }
+.related-guides h2 { margin-bottom: 16px; font-family: var(--font-display); }
+.related-guides-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.related-guide-card { display: grid; gap: 6px; padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-card); color: var(--text-main); text-decoration: none; }
+.related-guide-card span { color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.related-guide-card strong { font-size: 15px; line-height: 1.4; }
+.quick-verdict-box { margin: 24px 0; padding: 20px; border-left: 4px solid var(--primary); border-radius: var(--radius-md); background: var(--primary-light); }
+.button-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.scout-score-panel { display: grid; gap: 7px; margin: 18px 0; padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-main); }
+.scout-score-panel strong { font-family: var(--font-display); font-size: 24px; }
+.scout-score-panel p { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+.scout-score-panel a { color: var(--primary); font-size: 13px; font-weight: 800; }
+.scout-score-box,
+.service-cta { display: grid; gap: 10px; margin: 20px 0; padding: 18px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--surface-soft, #f7f9fc); }
+.scout-score-box h3,
+.service-cta h2 { margin: 0; }
+.scout-score-box ul { margin: 0; padding-left: 20px; }
+.service-fallback-cta { display: grid; gap: 10px; margin: 34px 0; padding: 22px; border: 1px solid var(--border-color); border-left: 4px solid var(--accent); border-radius: var(--radius-md); background: var(--surface-soft, #f7f9fc); }
+.service-fallback-cta h2, .service-fallback-cta p { margin: 0; }
+.service-fallback-reason { color: var(--text-muted); font-size: 13px; }
+
 /* Base resets & styles */
 * {
   box-sizing: border-box;
@@ -104,7 +123,7 @@ h1, h2 {
   letter-spacing: -0.01em;
 }
 
-/* H3-H6: Clean Poppins for UI labels, card titles, and filter headings */
+/* H3-H6: Rounded Nunito Sans for UI labels, card titles, and filter headings */
 h3, h4, h5, h6 {
   font-family: var(--font-ui);
   font-weight: 700;
@@ -198,6 +217,27 @@ nav ul li a:hover, nav ul li a.active {
   color: var(--primary);
 }
 
+.skip-link {
+  background: var(--primary);
+  border-radius: 0 0 var(--radius-sm) 0;
+  color: #fff;
+  font-weight: 800;
+  left: 0;
+  padding: 12px 16px;
+  position: fixed;
+  top: 0;
+  transform: translateY(-120%);
+  transition: transform .18s ease;
+  z-index: 9999;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
 .header-actions {
   display: flex;
   align-items: center;
@@ -210,6 +250,12 @@ nav ul li a:hover, nav ul li a.active {
   border: none;
   cursor: pointer;
   padding: 8px;
+}
+
+[role="link"][tabindex="0"]:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
 }
 
 /* Button System */
@@ -259,6 +305,20 @@ nav ul li a:hover, nav ul li a.active {
   color: var(--text-main);
 }
 
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 24px;
+}
+
+@media (max-width: 640px) {
+  .hero-cta-row .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 .btn-accent {
   background-color: var(--accent);
   color: #fff;
@@ -282,6 +342,22 @@ nav ul li a:hover, nav ul li a.active {
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
+
+/* MVP templates use the shorter .button vocabulary; keep it aligned with the
+   existing button system so editor-authored links do not degrade to plain text. */
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border: 1px solid transparent; border-radius: var(--radius-sm); background: var(--primary); color: #fff; font: 600 16px/1.2 var(--font-sans); text-decoration: none; cursor: pointer; transition: var(--transition); }
+.button:hover { background: var(--primary-hover); color: #fff; transform: translateY(-1px); }
+.button-secondary { background: #fff; border-color: var(--border-color); color: var(--text-main); }
+.button-secondary:hover { background: var(--bg-main); border-color: var(--border-focus); color: var(--text-main); }
+
+.service-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.service-card { display: grid; align-content: start; gap: 10px; min-height: 210px; padding: 22px; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-card); color: var(--text-main); text-decoration: none; box-shadow: var(--shadow-sm); transition: var(--transition); }
+.service-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.service-card h2 { margin: 0; font-family: var(--font-display); font-size: 24px; }
+.service-card p { color: var(--text-muted); font-size: 15px; line-height: 1.55; }
+.service-card b { margin-top: auto; color: var(--primary); font-size: 14px; }
+@media (max-width: 1000px) { .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .service-grid { grid-template-columns: 1fr; } }
 
 /* Hero Section */
 .hero {
@@ -993,6 +1069,7 @@ nav ul li a:hover, nav ul li a.active {
 .lead-step input:not([type="checkbox"]) { border: 1px solid var(--border-color); border-radius: 9px; font: 400 15px var(--font-sans); padding: 12px 13px; }
 .lead-step input:focus { border-color: var(--primary); outline: 3px solid rgba(37, 99, 235, .15); }
 .consent { display: flex !important; grid-template-columns: auto 1fr !important; align-items: start; gap: 9px; font-size: 12px !important; font-weight: 400 !important; color: var(--text-muted) !important; }
+.form-privacy-note { color: var(--text-muted); font-size: 12px; margin: -6px 0 14px; }
 .form-error { min-height: 20px; color: #b42318; font-size: 13px; margin: 4px 0 8px; }
 .form-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .lead-demo-form .button, .lead-demo-form .step-next { border: 0; border-radius: 9px; background: var(--primary); color: #fff; cursor: pointer; font: 700 14px var(--font-sans); padding: 12px 18px; }
@@ -1236,6 +1313,99 @@ nav ul li a:hover, nav ul li a.active {
   box-shadow: var(--shadow-sm);
 }
 
+.tool-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 32px;
+  align-items: start;
+  padding: 56px 0;
+}
+
+.tool-page .selector-form,
+.tool-page .tool-result {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 26px;
+}
+
+.tool-page .selector-form fieldset {
+  border: 0;
+  margin: 0 0 22px;
+  padding: 0;
+}
+
+.tool-page .selector-form legend {
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.tool-page .selector-form label {
+  align-items: center;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  font-weight: 700;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 13px 14px;
+}
+
+.tool-page .selector-form input[type="radio"] {
+  accent-color: var(--primary);
+  flex: 0 0 auto;
+}
+
+.tool-page .selector-form button[type="submit"] {
+  background: var(--primary);
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font: 800 15px var(--font-sans);
+  min-height: 46px;
+  padding: 13px 20px;
+  width: 100%;
+}
+
+.tool-page .selector-form button[type="submit"]:hover,
+.tool-page .selector-form button[type="submit"]:focus-visible {
+  background: var(--primary-hover);
+  outline: 3px solid rgba(37, 99, 235, .18);
+  outline-offset: 3px;
+}
+
+.tool-page .selector-form label:has(input:checked) {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary-hover);
+}
+
+.tool-page .tool-result {
+  position: sticky;
+  top: calc(var(--header-height) + 18px);
+}
+
+.tool-page .tool-result .dashicons {
+  align-items: center;
+  background: var(--primary-light);
+  border-radius: 999px;
+  color: var(--primary);
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  margin-bottom: 14px;
+  width: 42px;
+}
+
 .control-group {
   margin-bottom: 28px;
 }
@@ -1277,7 +1447,7 @@ input[type="range"].slider::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
 
-/* Real-time result layouts */
+/* Demo result layouts */
 .results-header {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 16px;
@@ -1382,9 +1552,12 @@ footer {
   max-width: 320px;
 }
 
-.footer-col h4 {
+.footer-col h4,
+.footer-heading {
   color: #fff;
   font-size: 15px;
+  font-family: var(--font-ui);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 20px;
@@ -1416,10 +1589,15 @@ footer {
 }
 
 .footer-bottom p {
-  color: #64748b;
+  color: #94a3b8;
   font-size: 13px;
   width: 100%;
   margin-bottom: 12px;
+}
+
+.footer-disclaimer {
+  font-size: 12px !important;
+  color: #94a3b8;
 }
 
 .footer-bottom p.copyright {
@@ -2050,7 +2228,57 @@ footer {
   }
 }
 
-/* Editor's Picks Grid */
+@media (max-width: 768px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .top-bar-container,
+  .top-bar-right {
+    flex-wrap: wrap;
+  }
+
+  .top-bar-right {
+    display: none;
+  }
+
+  .country-selector {
+    max-width: 100%;
+  }
+
+  .main-header .container {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .header-actions {
+    display: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .header-actions .btn {
+    flex: 1 1 160px;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .categories-slider-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+
+  .categories-slider-section {
+    overflow: hidden;
+  }
+}
+
+/* Research Fixtures Grid */
 .editors-picks-section {
   padding: 80px 0;
   background-color: var(--bg-main);
@@ -2333,7 +2561,8 @@ footer {
   flex-shrink: 0;
 }
 
-.trust-bar-info h5 {
+.trust-bar-info h5,
+.trust-bar-title {
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 4px;
@@ -2865,6 +3094,103 @@ footer {
 .home .ep-badge-text strong,
 .home .ep-badge-text span { font-family: var(--font-ui); }
 
+/* MVP route layout: these templates are WordPress-native, so keep their core
+   layout in the main theme CSS instead of a secondary legacy stylesheet. */
+.conversion-hero,
+.problem-hero,
+.lead-page,
+.hub-page .hub-hero {
+  background: var(--surface-soft, #f7f9fc);
+}
+
+.conversion-hero,
+.problem-hero,
+.hub-page .hub-hero {
+  padding: 64px 0 44px;
+}
+
+.conversion-hero-grid,
+.problem-hero-grid,
+.hub-hero-grid,
+.service-page-hero,
+.smart-hero > .container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.84fr);
+  gap: clamp(28px, 5vw, 60px);
+  align-items: center;
+}
+
+.service-page-hero {
+  margin: 34px 0 32px;
+}
+
+.conversion-hero h1,
+.problem-hero h1,
+.service-page-hero h1,
+.hub-page .hub-hero h1,
+.smart-hero h1 {
+  max-width: 760px;
+  margin: 10px 0 16px;
+  color: var(--text-main, #0f172a);
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(38px, 5vw, 62px);
+  line-height: 1.04;
+}
+
+.conversion-hero p,
+.problem-hero p,
+.service-page-hero p,
+.hub-page .hub-hero p,
+.smart-hero p {
+  max-width: 640px;
+  color: var(--text-muted, #52627a);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* Reserve image space on MVP hero templates to reduce layout-shift risk. */
+.hub-hero-grid img,
+.conversion-hero-grid img,
+.service-page-hero img,
+.problem-hero-grid img,
+.smart-hero img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: var(--shadow-md, 0 18px 45px rgba(15, 23, 42, 0.12));
+}
+
+.hub-hero-grid img[src*="hero-pet-home"],
+.problem-hero-grid img[src*="hero-pet-home"],
+.service-page-hero img[src*="hero-pet-home"] {
+  aspect-ratio: 1100 / 880;
+}
+
+.conversion-hero-grid img[src*="services-grooming-hero"],
+.service-page-hero img[src*="services-grooming-hero"],
+.smart-hero img[src*="smart-tech-comparison"] {
+  aspect-ratio: 1100 / 619;
+}
+
+@media (max-width: 900px) {
+  .conversion-hero-grid,
+  .problem-hero-grid,
+  .hub-hero-grid,
+  .service-page-hero,
+  .smart-hero > .container {
+    grid-template-columns: 1fr;
+  }
+
+  .conversion-hero,
+  .problem-hero,
+  .hub-page .hub-hero {
+    padding: 42px 0 32px;
+  }
+}
+
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 36px;
@@ -2897,6 +3223,18 @@ footer {
   }
   .card-selectors {
     grid-template-columns: 1fr;
+  }
+  .tool-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 34px 0;
+  }
+  .tool-page .selector-form,
+  .tool-page .tool-result {
+    padding: 20px;
+  }
+  .tool-page .tool-result {
+    position: static;
   }
   .mobile-nav-toggle {
     display: block;

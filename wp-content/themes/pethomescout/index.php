@@ -39,16 +39,16 @@ get_header();
             <div class="article-meta">
               <span><?php echo get_the_date('F Y'); ?> Update</span>
             </div>
-            <h3 style="font-family: var(--font-ui); font-size: 18px; margin-bottom: 10px;"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+            <h3 style="font-family: var(--font-ui); font-size: 18px; margin-bottom: 10px;"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php the_title(); ?></a></h3>
             <p style="font-size: 14px; color: var(--text-muted);"><?php echo wp_trim_words( get_the_excerpt(), 18 ); ?></p>
             <div class="article-footer" style="margin-top:auto; padding-top: 12px; border-top: 1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
               <span class="scout-score-badge top">
                 <?php
-                $scout_score = get_post_meta( get_the_ID(), 'scout_score', true );
-                echo esc_html( ! empty( $scout_score ) ? $scout_score : '8.8' );
-                ?> ScoutScore
+                $evidence = pethomescout_get_product_evidence( get_the_ID() );
+                echo esc_html( $evidence['publishable_score'] ? $evidence['score'] . ' ScoutScore' : 'Pending score' );
+                ?>
               </span>
-              <a href="<?php the_permalink(); ?>" style="font-size:13px; font-weight:600;">Read Review &rarr;</a>
+            <a href="<?php echo esc_url( get_permalink() ); ?>" style="font-size:13px; font-weight:600;">View Guide &rarr;</a>
             </div>
           </div>
         </article>

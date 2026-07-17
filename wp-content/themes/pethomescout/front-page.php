@@ -6,15 +6,21 @@
  */
 
 get_header();
+$home_values = pethomescout_home_values();
 ?>
 
+  <main id="main-content">
   <section class="hero-split">
     <div class="container hero-grid">
       <!-- Hero Left (Text & CTAs) -->
       <div class="hero-left">
-        <span class="tool-badge" style="background-color: var(--primary-light); color: var(--primary); margin-bottom: 16px;">AMERICA'S INDEPENDENT PET TECH AUTHORITY</span>
-        <h1 style="font-family: var(--font-display); font-size: 52px; font-weight: 700; line-height: 1.2; letter-spacing: 0; margin-bottom: 20px;">Make <span style="color: var(--primary);">Smarter</span> Choices.<br>Build a <span style="color: var(--primary);">Better</span> Pet Home.</h1>
-        <p class="lead">Independent, data-driven reviews and interactive tools to help pet parents build a cleaner, safer, and happier home environment.</p>
+        <span class="tool-badge" style="background-color: var(--primary-light); color: var(--primary); margin-bottom: 16px;"><?php echo esc_html( $home_values['eyebrow'] ); ?></span>
+        <h1 style="font-family: var(--font-display); font-size: 52px; font-weight: 700; line-height: 1.2; letter-spacing: 0; margin-bottom: 20px;"><?php echo esc_html( $home_values['title'] ); ?></h1>
+        <p class="lead"><?php echo esc_html( $home_values['intro'] ); ?></p>
+        <div class="hero-cta-row" aria-label="Homepage actions">
+          <a class="btn btn-primary" href="<?php echo esc_url( $home_values['primary_url'] ); ?>"><?php echo esc_html( $home_values['primary_label'] ); ?> &rarr;</a>
+          <a class="btn btn-secondary" href="<?php echo esc_url( $home_values['secondary_url'] ); ?>"><?php echo esc_html( $home_values['secondary_label'] ); ?></a>
+        </div>
         
         <!-- Smart Filter Search Bar Widget (App style) -->
         <div class="smart-search-widget">
@@ -58,7 +64,7 @@ get_header();
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             </svg>
-            Tested in Real American Homes
+            Evidence Labels on Every Recommendation
           </div>
           <div class="trust-badge-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -66,7 +72,7 @@ get_header();
               <line x1="12" y1="16" x2="12" y2="12"></line>
               <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
-            Transparent Affiliate Disclosure
+            Commercial Relationships Disclosed
           </div>
         </div>
       </div>
@@ -74,32 +80,44 @@ get_header();
       <!-- Hero Right (Product Highlight Card) -->
       <div class="hero-right">
         <?php
-        // Dynamically query the current featured Editor's Pick
-        $featured_pick = new WP_Query( array(
+        // Prefer an editor-selected guide; retain the legacy meta query as a
+        // safe fallback for existing preview fixtures.
+        $featured_guide_id = absint( pethomescout_editorial_field( 'home_featured_guide', 0, 0 ) );
+        $featured_query_args = $featured_guide_id ? array(
+          'post__in'       => array( $featured_guide_id ),
+          'posts_per_page' => 1,
+          'post_status'    => 'publish',
+        ) : array(
           'posts_per_page' => 1,
           'meta_key'       => 'hero_featured_pick',
-          'meta_value'     => '1'
-        ) );
+          'meta_value'     => '1',
+        );
+        $featured_pick = new WP_Query( $featured_query_args );
 
         if ( $featured_pick->have_posts() ) : $featured_pick->the_post();
-          $scout_score = get_post_meta( get_the_ID(), 'scout_score', true );
+          $evidence = pethomescout_get_product_evidence( get_the_ID() );
+          $scout_score = $evidence['score'];
           $card_desc   = get_post_meta( get_the_ID(), 'card_description', true );
+          $has_publishable_score = $evidence['publishable_score'];
         ?>
           <div class="editors-pick-card">
-            <span class="ep-tag-badge">Editor's Pick</span>
+            <span class="ep-tag-badge">Featured Guide</span>
             
             <!-- Card Left (Content) -->
             <div class="ep-content-area">
               <span class="ep-category">Robot Vacuums</span>
-              <h3 class="ep-title"><?php the_title(); ?></h3>
+              <h2 class="ep-title"><?php the_title(); ?></h2>
               <p class="ep-desc"><?php echo esc_html( $card_desc ? $card_desc : wp_trim_words(get_the_excerpt(), 15) ); ?></p>
               
               <div class="ep-score-block">
-                <div class="ep-score-value"><?php echo esc_html( $scout_score ? $scout_score : '9.4' ); ?><span class="ep-score-max">/10</span></div>
+                <div class="ep-score-value">
+                  <?php echo esc_html( $has_publishable_score ? $scout_score : 'Pending' ); ?>
+                  <?php if ( $has_publishable_score ) : ?><span class="ep-score-max">/10</span><?php endif; ?>
+                </div>
                 <div class="ep-score-label">PetHome ScoutScore</div>
               </div>
 
-              <a href="<?php the_permalink(); ?>" class="btn btn-primary" style="padding: 10px 20px; font-size: 13px; margin-top: auto; align-self: flex-start;">Read Review &rarr;</a>
+          <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary" style="padding: 10px 20px; font-size: 13px; margin-top: auto; align-self: flex-start;">View Guide &rarr;</a>
             </div>
 
             <!-- Card Right (Image & Badges) -->
@@ -127,14 +145,14 @@ get_header();
                 <div class="ep-badge-item">
                   <span class="ep-badge-icon">🐾</span>
                   <div class="ep-badge-text">
-                    <strong>Best for</strong>
-                    <span>Pet Owners</span>
+                    <strong>Designed for</strong>
+                    <span>Pet Homes</span>
                   </div>
                 </div>
                 <div class="ep-badge-item">
                   <span class="ep-badge-icon">🏆</span>
                   <div class="ep-badge-text">
-                    <strong>Top Rated</strong>
+                    <strong>Research-led</strong>
                     <span>2026</span>
                   </div>
                 </div>
@@ -152,16 +170,16 @@ get_header();
         <?php else : ?>
           <!-- Fallback static mock card if no post is configured in WP dashboard -->
           <div class="editors-pick-card">
-            <span class="ep-tag-badge">Editor's Pick</span>
+            <span class="ep-tag-badge">Research Fixture</span>
             <div class="ep-content-area">
               <span class="ep-category">Robot Vacuums</span>
-              <h3 class="ep-title">Roborock Q Revo MaxV</h3>
-              <p class="ep-desc">The ultimate automated vacuum for double-coat hair extraction and pet waste avoidance.</p>
+              <h2 class="ep-title">Roborock Q Revo MaxV</h2>
+              <p class="ep-desc">A research-led fixture for comparing double-coat hair pickup, dock upkeep, and obstacle-avoidance tradeoffs.</p>
               <div class="ep-score-block">
-                <div class="ep-score-value">9.4<span class="ep-score-max">/10</span></div>
+                <div class="ep-score-value">Pending</div>
                 <div class="ep-score-label">PetHome ScoutScore</div>
               </div>
-              <a href="<?php echo esc_url( home_url('/best-robot-vacuum-for-dog-hair/') ); ?>" class="btn btn-primary" style="padding: 10px 20px; font-size: 13px; margin-top: auto; align-self: flex-start;">Read Review &rarr;</a>
+              <a href="<?php echo esc_url( home_url('/best-robot-vacuum-for-dog-hair/') ); ?>" class="btn btn-primary" style="padding: 10px 20px; font-size: 13px; margin-top: auto; align-self: flex-start;">View Guide &rarr;</a>
             </div>
             <div class="ep-right-area">
               <div class="ep-product-image">
@@ -186,15 +204,15 @@ get_header();
                 <div class="ep-badge-item">
                   <span class="ep-badge-icon">🐾</span>
                   <div class="ep-badge-text">
-                    <strong>Best for</strong>
-                    <span>Pet Owners</span>
+                    <strong>Designed for</strong>
+                    <span>Pet Homes</span>
                   </div>
                 </div>
                 <div class="ep-badge-item">
                   <span class="ep-badge-icon">🏆</span>
                   <div class="ep-badge-text">
-                    <strong>Top Rated</strong>
-                    <span>2026</span>
+                    <strong>Research-led</strong>
+                    <span>Fixture</span>
                   </div>
                 </div>
                 <div class="ep-badge-item">
@@ -244,8 +262,8 @@ get_header();
             </svg>
           </div>
           <div>
-            <h4 style="font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Tested in Real Homes</h4>
-            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.4; margin: 0;">Every review and rating is backed by hands-on testing in active household environments with real pets.</p>
+            <div class="mini-card-title" style="font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Clear Evidence Labels</div>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.4; margin: 0;">Each recommendation identifies whether it is founder-tested, research-led, or based on published specifications.</p>
           </div>
         </div>
       </div>
@@ -258,24 +276,24 @@ get_header();
       <div class="warm-ribbon-item">
         <span class="warm-ribbon-emoji">🐾</span>
         <div>
-          <strong>87,000+</strong>
-          <span>Pet Families Helped</span>
+          <strong>Research-first</strong>
+          <span>No fake reader counts</span>
         </div>
       </div>
       <div class="warm-ribbon-divider"></div>
       <div class="warm-ribbon-item">
         <span class="warm-ribbon-emoji">🏠</span>
         <div>
-          <strong>Real Home Testing</strong>
-          <span>Across 12 US States</span>
+          <strong>Documented testing</strong>
+          <span>Only where documented</span>
         </div>
       </div>
       <div class="warm-ribbon-divider"></div>
       <div class="warm-ribbon-item">
         <span class="warm-ribbon-emoji">⭐</span>
         <div>
-          <strong>4.9 / 5.0</strong>
-          <span>Average Reader Rating</span>
+          <strong>Transparent</strong>
+          <span>Affiliate relationships disclosed</span>
         </div>
       </div>
       <div class="warm-ribbon-divider"></div>
@@ -298,11 +316,11 @@ get_header();
       </div>
 
       <div class="categories-slider-outer" style="position: relative;">
-        <button class="slider-arrow slider-arrow-left" onclick="scrollSlider(-220)" aria-label="Scroll left">&lsaquo;</button>
+        <button class="slider-arrow slider-arrow-left" type="button" onclick="scrollSlider(-220)" aria-label="Scroll left">&lsaquo;</button>
         
         <div class="categories-slider-wrapper" id="categories-slider">
           <!-- 1. Robot Vacuums -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/smart-tech/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/smart-tech/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -318,7 +336,7 @@ get_header();
           </div>
 
           <!-- 2. Pet Tech -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/smart-tech/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/smart-tech/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 20h18l-1.5-6h-15z"></path>
@@ -334,7 +352,7 @@ get_header();
           </div>
 
           <!-- 3. Smart Home -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/family-home/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/family-home/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -349,7 +367,7 @@ get_header();
           </div>
 
           <!-- 4. Security Cameras -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/smart-tech/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/smart-tech/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
@@ -362,7 +380,7 @@ get_header();
           </div>
 
           <!-- 5. Wearables -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/smart-tech/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/smart-tech/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -377,7 +395,7 @@ get_header();
           </div>
 
           <!-- 6. Grooming Tools -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/cleaning-odor/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/cleaning-odor/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 16h12a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3z"></path>
@@ -394,7 +412,7 @@ get_header();
           </div>
 
           <!-- 7. Pet Insurance -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/services-insurance/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/services-insurance/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -402,11 +420,11 @@ get_header();
               </svg>
             </div>
             <span>Pet Insurance</span>
-            <p>Compare custom rates</p>
+            <p>Compare coverage factors</p>
           </div>
 
           <!-- 8. Local Services -->
-          <div class="category-pill-card" onclick="location.href='<?php echo esc_url( home_url('/services-insurance/') ); ?>'">
+          <div class="category-pill-card" data-href="<?php echo esc_url( home_url('/services-insurance/') ); ?>">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 12l9-9 9 9M5 10v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"></path>
@@ -418,7 +436,7 @@ get_header();
           </div>
         </div>
         
-        <button class="slider-arrow slider-arrow-right" onclick="scrollSlider(220)" aria-label="Scroll right">&rsaquo;</button>
+        <button class="slider-arrow slider-arrow-right" type="button" onclick="scrollSlider(220)" aria-label="Scroll right">&rsaquo;</button>
       </div>
     </div>
   </section>
@@ -432,28 +450,28 @@ get_header();
       </div>
 
       <div class="tools-grid">
-        <div class="tool-banner-card" onclick="location.href='<?php echo esc_url( home_url('/tool/') ); ?>'">
+        <div class="tool-banner-card" data-href="<?php echo esc_url( home_url('/pet-tech-selector/') ); ?>">
           <div class="tool-banner-icon">🤖</div>
           <h3 style="font-family: var(--font-ui);">Vacuum Matchmaker</h3>
-          <p>Input your house size, pet shedding levels, and flooring types to get real-time ScoutScores for top vacuums.</p>
+          <p>Input your house size, pet shedding levels, and flooring types to preview research-led product matches.</p>
           <span class="btn-tool-banner">Launch Matchmaker &rarr;</span>
         </div>
 
-        <div class="tool-banner-card" onclick="location.href='<?php echo esc_url( home_url('/services-insurance/') ); ?>'">
+        <div class="tool-banner-card" data-href="<?php echo esc_url( home_url('/services-insurance/') ); ?>">
           <div class="tool-banner-icon">🛡️</div>
           <h3 style="font-family: var(--font-ui);">Insurance Matcher</h3>
-          <p>Generate real-time policy premium estimates from Embrace, Lemonade, and Pumpkin pet coverage programs.</p>
-          <span class="btn-tool-banner">Calculate Rates &rarr;</span>
+          <p>Review the factors that affect pet insurance pricing before using a future quote-comparison flow.</p>
+          <span class="btn-tool-banner">Preview Flow &rarr;</span>
         </div>
 
-        <div class="tool-banner-card" onclick="location.href='<?php echo esc_url( home_url('/services-insurance/') ); ?>'">
+        <div class="tool-banner-card" data-href="<?php echo esc_url( home_url('/services-insurance/') ); ?>">
           <div class="tool-banner-icon">📍</div>
           <h3 style="font-family: var(--font-ui);">Local Service Finder</h3>
-          <p>Find background-checked dog walkers, pet boarding sitters, and professional groomers in your zip code.</p>
-          <span class="btn-tool-banner">Find Services &rarr;</span>
+          <p>Learn what to compare when evaluating local groomers, sitters, and pet-care providers.</p>
+          <span class="btn-tool-banner">Compare Options &rarr;</span>
         </div>
 
-        <div class="tool-banner-card" onclick="location.href='<?php echo esc_url( home_url('/family-home/') ); ?>'">
+        <div class="tool-banner-card" data-href="<?php echo esc_url( home_url('/family-home/') ); ?>">
           <div class="tool-banner-icon">🛋️</div>
           <h3 style="font-family: var(--font-ui);">Scratch-Safety Selector</h3>
           <p>Select durable fabrics and protection plans to defend your sofas and hardwood floors from cat and dog claws.</p>
@@ -463,18 +481,26 @@ get_header();
     </div>
   </section>
 
-  <!-- Editor's Picks Grid Section -->
+  <!-- Research Fixtures Grid Section -->
   <section class="editors-picks-section">
     <div class="container">
       <div class="section-title-area" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 32px;">
-        <h2 style="font-family: var(--font-display); font-size: 30px;">Editor's Picks</h2>
-        <a href="<?php echo esc_url( home_url('/best-robot-vacuum-for-dog-hair/') ); ?>" style="font-size:14px; font-weight:600;">View all editor's picks &rarr;</a>
+        <h2 style="font-family: var(--font-display); font-size: 30px;">Research Fixtures</h2>
+        <a href="<?php echo esc_url( home_url('/best-robot-vacuum-for-dog-hair/') ); ?>" style="font-size:14px; font-weight:600;">View fixture guide &rarr;</a>
       </div>
 
       <div class="editors-picks-grid">
         <?php
-        // Query the top 4 products
-        $picks = new WP_Query( array(
+        // Prefer editor-curated product records, then retain the safe legacy query fallback.
+        $home_featured_products = pethomescout_editorial_field( 'home_featured_products', 0, array() );
+        $home_featured_products = is_array( $home_featured_products ) ? array_values( array_filter( array_map( 'absint', $home_featured_products ) ) ) : array();
+        $picks = new WP_Query( $home_featured_products ? array(
+          'post_type'      => 'pet_product',
+          'post__in'       => $home_featured_products,
+          'orderby'        => 'post__in',
+          'posts_per_page' => count( $home_featured_products ),
+          'post_status'    => 'publish',
+        ) : array(
           'post_type'      => 'pet_product',
           'posts_per_page' => 4,
           'meta_key'       => 'pick_card_index',
@@ -486,66 +512,68 @@ get_header();
           array(
             'title' => 'Roborock Q Revo MaxV',
             'cat' => 'Robot Vacuums',
-            'score' => '9.4',
-            'desc' => 'The absolute best robot vacuum tested for dog hair detangling and corner sweeps.',
+            'score' => 'Pending',
+            'desc' => 'A leading research-led robot vacuum match for dog hair, mixed floors, and dock automation.',
             'link' => home_url('/best-robot-vacuum-for-dog-hair/')
           ),
           array(
             'title' => 'Furbo 360 Dog Camera',
             'cat' => 'Pet Tech',
-            'score' => '8.9',
-            'desc' => 'Best pet camera with automatic panning, treat-tossing, and dynamic bark alerts.',
+            'score' => 'Pending',
+            'desc' => 'Research-led notes on pet-camera features such as panning, treat workflows, and alert settings.',
             'link' => home_url('/smart-tech/')
           ),
           array(
             'title' => 'Aqara Smart Lock U100',
             'cat' => 'Smart Home',
-            'score' => '8.8',
-            'desc' => 'Highly secure entry system supporting Apple Home Keys and temporary dog-walker codes.',
+            'score' => 'Pending',
+            'desc' => 'Research-led notes on smart-lock access features, temporary codes, and pet-care routines.',
             'link' => home_url('/family-home/')
           ),
           array(
             'title' => 'Whistle Fit Tracker',
             'cat' => 'Wearables',
-            'score' => '8.6',
-            'desc' => 'Premium dog fitness tracker offering metrics on sleep patterns, scratching, and heart rates.',
+            'score' => 'Pending',
+            'desc' => 'Research-led notes on activity, comfort, and location-tracking tradeoffs.',
             'link' => home_url('/smart-tech/')
           )
         );
 
         $index = 1;
         if ( $picks->have_posts() ) : while ( $picks->have_posts() ) : $picks->the_post();
-          $score = get_post_meta( get_the_ID(), 'scout_score', true );
+          $evidence = pethomescout_get_product_evidence( get_the_ID() );
+          $score = $evidence['score'];
+          $has_publishable_score = $evidence['publishable_score'];
           $category = get_post_meta( get_the_ID(), 'product_category_label', true );
           $desc = get_post_meta( get_the_ID(), 'card_description', true );
         ?>
-          <div class="pick-card" onclick="location.href='<?php the_permalink(); ?>'">
+          <div class="pick-card" data-href="<?php echo esc_url( get_permalink() ); ?>">
             <div class="pick-index-badge"><?php echo $index++; ?></div>
             <div class="pick-image-container">
               <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5">
                 <circle cx="12" cy="12" r="9"></circle>
               </svg>
-              <span class="pick-score-badge"><?php echo esc_html( $score ); ?> SCORE</span>
+                <span class="pick-score-badge"><?php echo esc_html( $has_publishable_score ? $score . ' SCORE' : 'Pending score' ); ?></span>
             </div>
             <div class="pick-body">
               <span class="pick-category"><?php echo esc_html( $category ); ?></span>
-              <h4 class="pick-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+              <h3 class="pick-title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php the_title(); ?></a></h3>
               <p class="pick-desc"><?php echo esc_html( $desc ); ?></p>
             </div>
           </div>
         <?php endwhile; else : ?>
           <?php foreach ( $fallback_picks as $pick ) : ?>
-            <div class="pick-card" onclick="location.href='<?php echo esc_url( $pick['link'] ); ?>'">
+            <div class="pick-card" data-href="<?php echo esc_url( $pick['link'] ); ?>">
               <div class="pick-index-badge"><?php echo $index++; ?></div>
               <div class="pick-image-container">
                 <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5">
                   <circle cx="12" cy="12" r="9"></circle>
                 </svg>
-                <span class="pick-score-badge"><?php echo esc_html( $pick['score'] ); ?> SCORE</span>
+                <span class="pick-score-badge"><?php echo esc_html( is_numeric( $pick['score'] ) ? $pick['score'] . ' SCORE' : 'Pending score' ); ?></span>
               </div>
               <div class="pick-body">
                 <span class="pick-category"><?php echo esc_html( $pick['cat'] ); ?></span>
-                <h4 class="pick-title"><a href="<?php echo esc_url( $pick['link'] ); ?>"><?php echo esc_html( $pick['title'] ); ?></a></h4>
+                <h3 class="pick-title"><a href="<?php echo esc_url( $pick['link'] ); ?>"><?php echo esc_html( $pick['title'] ); ?></a></h3>
                 <p class="pick-desc"><?php echo esc_html( $pick['desc'] ); ?></p>
               </div>
             </div>
@@ -560,10 +588,10 @@ get_header();
     <div class="container">
       <div class="three-col-grid">
         
-        <!-- Column 1: Latest Reviews -->
+        <!-- Column 1: Latest Guides -->
         <div class="feed-column">
           <h3 class="feed-column-title">
-            Latest Reviews
+            Latest Guides
             <a href="<?php echo esc_url( home_url('/smart-tech/') ); ?>">View all &rarr;</a>
           </h3>
           <div class="feed-list">
@@ -574,29 +602,31 @@ get_header();
             ) );
 
             if ( $reviews->have_posts() ) : while ( $reviews->have_posts() ) : $reviews->the_post();
-              $score = get_post_meta( get_the_ID(), 'scout_score', true );
+          $evidence = pethomescout_get_product_evidence( get_the_ID() );
+          $score = $evidence['score'];
+          $has_publishable_score = $evidence['publishable_score'];
             ?>
-              <div class="feed-item-card" onclick="location.href='<?php the_permalink(); ?>'">
+              <div class="feed-item-card" data-href="<?php echo esc_url( get_permalink() ); ?>">
                 <div class="feed-item-img">🐾</div>
                 <div class="feed-item-info">
                   <div class="feed-item-meta">
                     <span><?php echo get_the_date('M d, Y'); ?></span>
-                    <span style="font-weight:700; color:var(--success);">Score: <?php echo esc_html( $score ); ?></span>
+                    <span style="font-weight:700; color:var(--success);">Evidence: <?php echo esc_html( $has_publishable_score ? 'Scored' : 'Pending' ); ?></span>
                   </div>
-                  <h4 class="feed-item-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+                  <h4 class="feed-item-title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php the_title(); ?></a></h4>
                   <p style="font-size:12px; color:var(--text-muted);"><?php echo wp_trim_words( get_the_excerpt(), 8 ); ?></p>
                 </div>
               </div>
             <?php endwhile; else : ?>
               <?php foreach ( array(
-                array( 'date' => 'June 1, 2026', 'score' => '8.7', 'title' => 'Eufy X10 Pro Omni Review', 'desc' => 'A powerful all-rounder with smart mapping.', 'link' => home_url('/best-robot-vacuum-for-dog-hair/') ),
-                array( 'date' => 'May 28, 2026', 'score' => '8.9', 'title' => 'Furbo Dog Camera 360 Review', 'desc' => 'The best companion camera for pet parents.', 'link' => '#' ),
-                array( 'date' => 'May 20, 2026', 'score' => '8.3', 'title' => 'Whistle GPS Collar Review', 'desc' => 'Fitness and location tracking system tested.', 'link' => '#' ),
+                array( 'date' => 'June 1, 2026', 'score' => 'Pending', 'title' => 'Eufy X10 Pro Omni Guide Notes', 'desc' => 'Research-led notes on mapping, dock workflow, and pet-hair cleanup factors.', 'link' => home_url('/best-robot-vacuum-for-dog-hair/') ),
+                array( 'date' => 'May 28, 2026', 'score' => 'Pending', 'title' => 'Pet Camera Decision Notes', 'desc' => 'Research-led considerations for monitoring pets while away.', 'link' => home_url('/smart-tech/') ),
+                array( 'date' => 'May 20, 2026', 'score' => 'Pending', 'title' => 'GPS Collar Research Notes', 'desc' => 'Research-led notes on activity and location tracking tradeoffs.', 'link' => home_url('/smart-tech/') ),
               ) as $review ) : ?>
-                <div class="feed-item-card" onclick="location.href='<?php echo esc_url( $review['link'] ); ?>'">
+                <div class="feed-item-card" data-href="<?php echo esc_url( $review['link'] ); ?>">
                   <div class="feed-item-img">○</div>
                   <div class="feed-item-info">
-                    <div class="feed-item-meta"><span><?php echo esc_html( $review['date'] ); ?></span><span style="font-weight:700; color:var(--success);">Score: <?php echo esc_html( $review['score'] ); ?></span></div>
+                    <div class="feed-item-meta"><span><?php echo esc_html( $review['date'] ); ?></span><span style="font-weight:700; color:var(--success);">Evidence: <?php echo esc_html( is_numeric( $review['score'] ) ? 'Scored' : 'Pending' ); ?></span></div>
                     <h4 class="feed-item-title"><a href="<?php echo esc_url( $review['link'] ); ?>"><?php echo esc_html( $review['title'] ); ?></a></h4>
                     <p style="font-size:12px; color:var(--text-muted);"> <?php echo esc_html( $review['desc'] ); ?></p>
                   </div>
@@ -621,23 +651,23 @@ get_header();
 
             if ( $guides->have_posts() ) : while ( $guides->have_posts() ) : $guides->the_post();
             ?>
-              <div class="feed-item-card" onclick="location.href='<?php the_permalink(); ?>'">
+              <div class="feed-item-card" data-href="<?php echo esc_url( get_permalink() ); ?>">
                 <div class="feed-item-img">📖</div>
                 <div class="feed-item-info">
                   <div class="feed-item-meta">
                     <span><?php echo get_the_date('M d, Y'); ?></span>
                   </div>
-                  <h4 class="feed-item-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+                  <h4 class="feed-item-title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php the_title(); ?></a></h4>
                   <p style="font-size:12px; color:var(--text-muted);"><?php echo wp_trim_words( get_the_excerpt(), 8 ); ?></p>
                 </div>
               </div>
             <?php endwhile; else : ?>
               <?php foreach ( array(
-                array( 'date' => 'July 2026 Update', 'title' => 'Best Robot Vacuums in America (2026)', 'desc' => 'Our top picks for every home and budget tier.', 'link' => home_url('/best-robot-vacuum-for-dog-hair/') ),
-                array( 'date' => 'June 2026 Update', 'title' => 'Best Pet Cameras for Peace of Mind', 'desc' => 'Keep an eye on dogs and cats from anywhere.', 'link' => '#' ),
-                array( 'date' => 'May 2026 Update', 'title' => 'Smart Pet Home Starter Guide', 'desc' => 'Everything you need to automate pet care.', 'link' => '#' ),
+                array( 'date' => 'July 2026 Update', 'title' => 'Best Robot Vacuums for Pet Hair', 'desc' => 'Research-led picks by floor type, hair level, and household friction.', 'link' => home_url('/best-robot-vacuum-for-dog-hair/') ),
+                array( 'date' => 'June 2026 Update', 'title' => 'Pet Camera Buying Questions', 'desc' => 'What to compare before choosing a camera for dogs or cats.', 'link' => home_url('/smart-tech/') ),
+                array( 'date' => 'May 2026 Update', 'title' => 'Smart Pet Home Starter Guide', 'desc' => 'How to prioritize automation without overbuying devices.', 'link' => home_url('/smart-tech/') ),
               ) as $guide ) : ?>
-                <div class="feed-item-card" onclick="location.href='<?php echo esc_url( $guide['link'] ); ?>'">
+                <div class="feed-item-card" data-href="<?php echo esc_url( $guide['link'] ); ?>">
                   <div class="feed-item-img">○</div>
                   <div class="feed-item-info">
                     <div class="feed-item-meta"><span><?php echo esc_html( $guide['date'] ); ?></span></div>
@@ -667,7 +697,7 @@ get_header();
               $p1 = get_post_meta( get_the_ID(), 'comparison_product_1', true );
               $p2 = get_post_meta( get_the_ID(), 'comparison_product_2', true );
             ?>
-              <div class="vs-row-item" onclick="location.href='<?php the_permalink(); ?>'">
+              <div class="vs-row-item" data-href="<?php echo esc_url( get_permalink() ); ?>">
                 <div class="vs-product">
                   <div class="vs-product-thumb">🤖</div>
                   <span><?php echo esc_html($p1 ? $p1 : 'Product A'); ?></span>
@@ -684,7 +714,7 @@ get_header();
                 array( 'a' => 'Furbo 360', 'b' => 'Eufy Pet Cam', 'icon' => '📷' ),
                 array( 'a' => 'Aqara U100', 'b' => 'Yale Assure L2', 'icon' => '🔒' ),
               ) as $comparison ) : ?>
-                <div class="vs-row-item" onclick="location.href='<?php echo esc_url( home_url('/best-robot-vacuum-for-dog-hair/') ); ?>'">
+                <div class="vs-row-item" data-href="<?php echo esc_url( home_url('/best-robot-vacuum-for-dog-hair/') ); ?>">
                   <div class="vs-product"><div class="vs-product-thumb"><?php echo esc_html( $comparison['icon'] ); ?></div><span><?php echo esc_html( $comparison['a'] ); ?></span></div>
                   <span class="vs-divider">VS</span>
                   <div class="vs-product"><div class="vs-product-thumb"><?php echo esc_html( $comparison['icon'] ); ?></div><span><?php echo esc_html( $comparison['b'] ); ?></span></div>
@@ -710,8 +740,8 @@ get_header();
             </svg>
           </div>
           <div class="trust-bar-info">
-            <h5 style="font-family: var(--font-ui);">Real-World Testing</h5>
-            <p>We test in US pet homes so you get real insights.</p>
+            <div class="trust-bar-title" style="font-family: var(--font-ui);">Evidence-Labeled Guidance</div>
+            <p>Founder-tested appears only where a completed rubric exists.</p>
           </div>
         </div>
         <div class="trust-bar-item">
@@ -721,8 +751,8 @@ get_header();
             </svg>
           </div>
           <div class="trust-bar-info">
-            <h5 style="font-family: var(--font-ui);">Clear & Honest Reviews</h5>
-            <p>Pros, cons, ratings, and raw facts you need.</p>
+            <div class="trust-bar-title" style="font-family: var(--font-ui);">Clear & Honest Reviews</div>
+            <p>Pros, cons, evidence status, and limitations you need.</p>
           </div>
         </div>
         <div class="trust-bar-item">
@@ -734,8 +764,8 @@ get_header();
             </svg>
           </div>
           <div class="trust-bar-info">
-            <h5 style="font-family: var(--font-ui);">United States Focused</h5>
-            <p>Local pricing, stock levels, and warranty cover.</p>
+            <div class="trust-bar-title" style="font-family: var(--font-ui);">United States Focused</div>
+            <p>Guidance is written for US products, services, and household terms.</p>
           </div>
         </div>
         <div class="trust-bar-item">
@@ -747,7 +777,7 @@ get_header();
             </svg>
           </div>
           <div class="trust-bar-info">
-            <h5 style="font-family: var(--font-ui);">Affiliate Transparency</h5>
+            <div class="trust-bar-title" style="font-family: var(--font-ui);">Affiliate Transparency</div>
             <p>We earn a small commission from partner store links.</p>
           </div>
         </div>
@@ -760,25 +790,29 @@ get_header();
     <div class="container">
       <div class="newsletter-container">
         <div class="newsletter-info">
-          <h4 style="font-family: var(--font-ui);">Get smarter every week.</h4>
-          <p>New reviews, buying guides, and pet household deals - straight to your inbox.</p>
+          <div class="newsletter-title" style="font-family: var(--font-ui);">Newsletter preview</div>
+          <p>Email capture is disabled in the MVP until consent, delivery, and unsubscribe handling are ready.</p>
         </div>
-        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully! Thank you.'); this.reset();">
-          <input type="email" placeholder="Your email address" required>
-          <button type="submit">Subscribe</button>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset();" aria-label="Newsletter preview form">
+          <input type="email" aria-label="Newsletter email preview" placeholder="Email disabled in MVP" disabled>
+          <button type="submit" disabled>Coming later</button>
         </form>
       </div>
     </div>
   </section>
+  </main>
 
   <script>
     function scrollSlider(amount) {
       const container = document.getElementById('categories-slider');
-      container.scrollBy({ left: amount, behavior: 'smooth' });
+      if (container) {
+        container.scrollBy({ left: amount, behavior: 'smooth' });
+      }
     }
 
     function handleWidgetSearch() {
-      const category = document.getElementById('select-category').value;
+      const selector = document.getElementById('select-category');
+      const category = selector ? selector.value : '';
       if (category) {
         window.location.href = category;
       }

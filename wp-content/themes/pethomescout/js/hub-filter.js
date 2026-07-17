@@ -37,7 +37,7 @@
       activeFilter = button.dataset.filter.toLowerCase();
       root.querySelectorAll('[data-filter]').forEach(function (item) { item.classList.toggle('is-active', item === button); });
       render();
-      window.petHomeScoutTrack && window.petHomeScoutTrack('hub_filter_used', { filter: activeFilter });
+      window.petHomeScoutTrack && window.petHomeScoutTrack('comparison_interaction', { interaction_type: 'hub_filter', filter: activeFilter });
     });
   });
   categoryChecks.concat(merchantChecks).forEach(function (check) { check.addEventListener('change', render); });

@@ -1,0 +1,6 @@
+PetHomeScout review build validation
+ACF JSON validation: PASS
+Groups checked: 9
+Article field count: 27
+Editor-first curation fields: `home_featured_products`, `featured_products`, `primary_guide`
+Invalid JSON files: 0

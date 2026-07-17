@@ -1,0 +1,5 @@
+PetHomeScout review build validation
+Internal-link controls: PASS
+Article relationship fields include parent hub, problem guide, product guide, comparison, tool, service, and methodology links.
+Normal hub routes render without orphaned contextual service fallback.
+Homepage and hub product grids prefer editor-selected `pet_product` records and use `primary_guide` for internal editorial links when configured.

@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying all single posts (Reviews & Buying Guides)
+ * The template for displaying all single posts (Guides & Buying Guides)
  *
  * @package PetHomeScout
  */
@@ -31,27 +31,20 @@ get_header();
       <span>By <strong><?php the_author(); ?></strong></span>
       <span>&bull;</span>
       <span>Last Updated: <?php the_modified_date('F Y'); ?></span>
+      <?php $article_evidence = pethomescout_editorial_field( 'evidence_status', get_the_ID(), 'research_led' ); ?>
+      <span class="evidence-badge"><?php echo esc_html( ucwords( str_replace( '_', ' ', $article_evidence ) ) ); ?></span>
     </div>
 
-    <!-- Mandatory Affiliate Disclosure Box -->
-    <div class="affiliate-disclosure-box">
-      <div class="disclosure-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="16" x2="12" y2="12"></line>
-          <line x1="12" y1="8" x2="12.01" y2="8"></line>
-        </svg>
-      </div>
-      <div>
-        <strong>PetHomeScout is reader-supported.</strong> When you purchase through links on our site, we may earn an affiliate commission at no extra cost to you. This enables us to maintain our testing lab. All outbound links route securely via `/go/` tracking redirects.
-      </div>
-    </div>
+    <?php get_template_part( 'template-parts/disclosures/affiliate' ); ?>
 
     <?php while ( have_posts() ) : the_post(); ?>
       
       <div class="entry-content">
         <?php the_content(); ?>
       </div>
+
+      <?php pethomescout_render_related_links( get_the_ID() ); ?>
+      <?php pethomescout_render_service_fallback_cta( get_the_ID() ); ?>
 
       <!-- Dynamic Product Comparison Section -->
       <?php
@@ -70,17 +63,25 @@ get_header();
                 <th>ScoutScore</th>
                 <th>Main Feature</th>
                 <th>Best For</th>
-                <th>Compare Store Prices</th>
+                <th>Partner Availability</th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ( $compared_products as $prod_id ) : 
-                $scout_score  = get_post_meta( $prod_id, 'scout_score', true );
+                $evidence = pethomescout_get_product_evidence( $prod_id );
+                $scout_score  = $evidence['score'];
                 $main_feature = get_post_meta( $prod_id, 'main_feature', true );
                 $best_for     = get_post_meta( $prod_id, 'best_for', true );
+                $evidence_status = $evidence['status'];
+                $score_label  = $evidence['publishable_score'] ? esc_html( $scout_score ) . ' / 10' : 'Pending test record';
                 $chewy_price  = get_post_meta( $prod_id, 'chewy_price', true );
                 $wayfair_price = get_post_meta( $prod_id, 'wayfair_price', true );
                 $amazon_price = get_post_meta( $prod_id, 'amazon_price', true );
+                $merchant_rows = array(
+                  'chewy'   => array( 'label' => 'Chewy', 'price' => $chewy_price ),
+                  'wayfair' => array( 'label' => 'Wayfair', 'price' => $wayfair_price ),
+                  'amazon'  => array( 'label' => 'Amazon', 'price' => $amazon_price ),
+                );
               ?>
                 <tr>
                   <td>
@@ -89,29 +90,24 @@ get_header();
                       <strong><?php echo esc_html( get_the_title( $prod_id ) ); ?></strong>
                     </div>
                   </td>
-                  <td><strong style="color:var(--success);"><?php echo esc_html( $scout_score ); ?> / 10</strong></td>
+                  <td><strong style="color:var(--success);"><?php echo esc_html( $score_label ); ?></strong></td>
                   <td><?php echo esc_html( $main_feature ); ?></td>
                   <td><?php echo esc_html( $best_for ); ?></td>
                   <td>
                     <div class="uct-merchant-cell">
-                      <?php if ( ! empty( $chewy_price ) ) : ?>
-                        <a href="<?php echo pethomescout_get_affiliate_link( $prod_id, 'chewy' ); ?>" class="uct-merchant-link">
-                          <span>Chewy</span>
-                          <span class="price">$<?php echo esc_html( $chewy_price ); ?></span>
-                        </a>
-                      <?php endif; ?>
-                      <?php if ( ! empty( $wayfair_price ) ) : ?>
-                        <a href="<?php echo pethomescout_get_affiliate_link( $prod_id, 'wayfair' ); ?>" class="uct-merchant-link">
-                          <span>Wayfair</span>
-                          <span class="price">$<?php echo esc_html( $wayfair_price ); ?></span>
-                        </a>
-                      <?php endif; ?>
-                      <?php if ( ! empty( $amazon_price ) ) : ?>
-                        <a href="<?php echo pethomescout_get_affiliate_link( $prod_id, 'amazon' ); ?>" class="uct-merchant-link">
-                          <span>Amazon</span>
-                          <span class="price">$<?php echo esc_html( $amazon_price ); ?></span>
-                        </a>
-                      <?php endif; ?>
+                      <?php foreach ( $merchant_rows as $merchant_slug => $merchant ) : ?>
+                        <?php if ( ! empty( $merchant['price'] ) && pethomescout_offer_is_approved( $prod_id, $merchant_slug ) ) : ?>
+                          <a href="<?php echo esc_url( pethomescout_get_affiliate_link( $prod_id, $merchant_slug ) ); ?>" class="uct-merchant-link" rel="sponsored nofollow" data-track="buy_box_click" data-merchant="<?php echo esc_attr( $merchant_slug ); ?>" data-product="<?php echo esc_attr( get_post_field( 'post_name', $prod_id ) ); ?>" data-cta-position="comparison_table" data-evidence-status="<?php echo esc_attr( $evidence_status ); ?>">
+                            <span><?php echo esc_html( $merchant['label'] ); ?></span>
+                            <span class="price">$<?php echo esc_html( $merchant['price'] ); ?></span>
+                          </a>
+                        <?php else : ?>
+                          <button type="button" class="uct-merchant-link" disabled aria-disabled="true">
+                            <span><?php echo esc_html( $merchant['label'] ); ?></span>
+                            <span class="price">Merchant pending</span>
+                          </button>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
                     </div>
                   </td>
                 </tr>
@@ -125,15 +121,22 @@ get_header();
       <?php
       if ( ! empty( $compared_products ) && is_array( $compared_products ) ) :
       ?>
-        <h2 style="font-size:26px; margin-top: 50px; margin-bottom: 24px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; font-family: var(--font-display);">Top Pet Gear Reviews</h2>
+        <h2 style="font-size:26px; margin-top: 50px; margin-bottom: 24px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; font-family: var(--font-display);">Product Guidance Notes</h2>
         
         <?php foreach ( $compared_products as $prod_id ) : 
-          $scout_score = get_post_meta( $prod_id, 'scout_score', true );
+          $evidence = pethomescout_get_product_evidence( $prod_id );
+          $scout_score = $evidence['score'];
+          $score_label = $evidence['publishable_score'] ? esc_html( $scout_score ) . ' ScoutScore' : 'Pending test record';
           $card_badges = get_post_meta( $prod_id, 'card_badges', true ); // comma-separated strings
           $description = get_post_meta( $prod_id, 'card_description', true );
           $chewy_price = get_post_meta( $prod_id, 'chewy_price', true );
           $wayfair_price = get_post_meta( $prod_id, 'wayfair_price', true );
           $amazon_price = get_post_meta( $prod_id, 'amazon_price', true );
+          $merchant_rows = array(
+            'chewy'   => array( 'label' => 'Chewy', 'price' => $chewy_price ),
+            'wayfair' => array( 'label' => 'Wayfair', 'price' => $wayfair_price ),
+            'amazon'  => array( 'label' => 'Amazon', 'price' => $amazon_price ),
+          );
           $specs       = pethomescout_get_product_specs( $prod_id );
         ?>
           <div class="universal-product-card" style="margin-bottom: 40px;">
@@ -153,7 +156,7 @@ get_header();
                   <circle cx="12" cy="4" r="2.5"/>
                 </g>
               </svg>
-              <span class="pick-score-badge" style="top:12px; right:12px;"><?php echo esc_html( $scout_score ); ?> Rating</span>
+              <span class="pick-score-badge" style="top:12px; right:12px;"><?php echo esc_html( $score_label ); ?></span>
             </div>
             <div class="upc-info">
               <div class="upc-badge-row">
@@ -181,49 +184,9 @@ get_header();
                 </div>
               <?php endif; ?>
 
-              <!-- Multi-merchant price links box -->
-              <div class="upc-multi-merchant-box">
-                <div class="upc-merchant-title">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                  </svg>
-                  Compare Partner Prices
-                </div>
-                <div class="merchant-pricing-grid">
-                  <?php if ( ! empty( $chewy_price ) ) : ?>
-                    <div class="merchant-row">
-                      <div class="merchant-name-logo">
-                        <span class="merchant-logo-dot chewy"></span>
-                        Chewy
-                      </div>
-                      <div class="merchant-price">$<?php echo esc_html( $chewy_price ); ?></div>
-                      <a href="<?php echo pethomescout_get_affiliate_link( $prod_id, 'chewy' ); ?>" class="btn-merchant-cta chewy">Check Price</a>
-                    </div>
-                  <?php endif; ?>
-                  <?php if ( ! empty( $wayfair_price ) ) : ?>
-                    <div class="merchant-row">
-                      <div class="merchant-name-logo">
-                        <span class="merchant-logo-dot wayfair"></span>
-                        Wayfair
-                      </div>
-                      <div class="merchant-price">$<?php echo esc_html( $wayfair_price ); ?></div>
-                      <a href="<?php echo pethomescout_get_affiliate_link( $prod_id, 'wayfair' ); ?>" class="btn-merchant-cta wayfair">Check Price</a>
-                    </div>
-                  <?php endif; ?>
-                  <?php if ( ! empty( $amazon_price ) ) : ?>
-                    <div class="merchant-row">
-                      <div class="merchant-name-logo">
-                        <span class="merchant-logo-dot amazon"></span>
-                        Amazon
-                      </div>
-                      <div class="merchant-price">$<?php echo esc_html( $amazon_price ); ?></div>
-                      <a href="<?php echo pethomescout_get_affiliate_link( $prod_id, 'amazon' ); ?>" class="btn-merchant-cta amazon">Check Price</a>
-                    </div>
-                  <?php endif; ?>
-                </div>
-              </div>
+              <?php get_template_part( 'template-parts/commercial/scout-score', null, array( 'product_id' => $prod_id ) ); ?>
+
+              <?php get_template_part( 'template-parts/commercial/buy-box', null, array( 'product_id' => $prod_id, 'merchants' => array_keys( $merchant_rows ) ) ); ?>
 
             </div>
           </div>
