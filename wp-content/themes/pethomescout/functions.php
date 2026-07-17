@@ -95,6 +95,14 @@ function pethomescout_current_path() {
 		return '';
 	}
 
+	// WordPress Playground exposes the temporary site scope in REQUEST_URI.
+	// Remove that runtime-only prefix before route matching and canonical paths;
+	// normal production/staging hosts are unchanged.
+	$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+	if ( false !== strpos( $host, 'playground.wordpress.net' ) ) {
+		$path = preg_replace( '#^/?scope:[^/]+/?#', '/', $path );
+	}
+
 	return trim( sanitize_text_field( $path ), '/' );
 }
 
