@@ -201,6 +201,29 @@ header.scrolled {
   fill: var(--primary);
 }
 
+.logo .brand-logo {
+  display: block;
+  width: 190px;
+  height: 58px;
+  max-width: 190px;
+  object-fit: contain;
+}
+
+.logo .brand-logo-footer {
+  width: 210px;
+  height: 64px;
+  max-width: 210px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .logo .brand-logo {
+    width: 150px;
+    height: 48px;
+    max-width: 150px;
+  }
+}
+
 nav ul {
   display: flex;
   list-style: none;

@@ -4,29 +4,24 @@
       <div class="footer-columns">
         <div class="footer-col">
           <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo" style="color:#fff;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:#fff; fill: var(--primary);">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            PetHome<span style="color:var(--accent);">Scout</span>
+            <img class="brand-logo brand-logo-footer" src="<?php echo esc_url( get_template_directory_uri() . '/assets/pethomescout-logo-v2.png' ); ?>" alt="PetHomeScout">
           </a>
-          <p class="footer-desc">Providing transparent, evidence-labeled guidance to help pet owners build happier, cleaner, and safer homes.</p>
+          <p class="footer-desc">Evidence-labeled guidance for pet hair, odor and stain decisions in homes with dogs and cats.</p>
         </div>
         <div class="footer-col">
-          <h2 class="footer-heading">Expertise Hubs</h2>
+          <h2 class="footer-heading">Clean Pet Home</h2>
           <ul>
-            <li><a href="<?php echo esc_url( home_url( '/family-home/' ) ); ?>">Family Home</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/smart-tech/' ) ); ?>">Smart Tech</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/cleaning-odor/' ) ); ?>">Cleaning & Odor</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>">Services & Insurance</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/pet-hair-cleaning/' ) ); ?>">Pet Hair Cleaning</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/pet-odor-stain-removal/' ) ); ?>">Odor &amp; Stain Removal</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/cleaning-odor/' ) ); ?>">Product Guides</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h2 class="footer-heading">Decision Tools</h2>
           <ul>
-            <li><a href="<?php echo esc_url( home_url( '/pet-tech-selector/' ) ); ?>">Pet Tech Selector</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>">Pet Insurance Preview</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>">Grooming & Care Checklist</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/pet-home-cleaning-selector/' ) ); ?>">Cleaning System Selector</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/how-we-test/' ) ); ?>">How We Test</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/evidence-standards/' ) ); ?>">Evidence Standards</a></li>
           </ul>
         </div>
         <div class="footer-col">

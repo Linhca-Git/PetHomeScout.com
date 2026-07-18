@@ -26,9 +26,8 @@ if ( 'go' === $pethomescout_body_content_type ) {
         <?php bloginfo('name'); ?> &bull; INDEPENDENT GUIDANCE FOR PET-FRIENDLY HOMES
       </div>
       <div class="top-bar-right">
-        <a href="<?php echo esc_url( home_url( '/smart-tech/' ) ); ?>">Smart Tech</a>
-        <a href="<?php echo esc_url( home_url( '/cleaning-odor/' ) ); ?>">Cleaning & Odor</a>
-        <a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>">Services & Insurance</a>
+        <a href="<?php echo esc_url( home_url( '/pet-hair-cleaning/' ) ); ?>">Pet Hair</a>
+        <a href="<?php echo esc_url( home_url( '/pet-odor-stain-removal/' ) ); ?>">Odor &amp; Stains</a>
         <a href="<?php echo esc_url( home_url( '/how-we-test/' ) ); ?>">How We Test</a>
         <div class="country-selector">
           <span style="font-size:14px;">🇺🇸</span>
@@ -42,11 +41,7 @@ if ( 'go' === $pethomescout_body_content_type ) {
   <header>
     <div class="container header-container">
       <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-        PetHome<span>Scout</span>
+        <img class="brand-logo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/pethomescout-logo-v2.png' ); ?>" alt="PetHomeScout">
       </a>
       
       <nav aria-label="Primary navigation">
@@ -60,14 +55,14 @@ if ( 'go' === $pethomescout_body_content_type ) {
             'fallback_cb'    => false,
           ) );
         } else {
-          // Fallback static list matching prototype hierarchy
+          // Narrow Phase 1 fallback. Future hubs remain in the data model only.
           ?>
           <ul>
             <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="active">Home</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/family-home/' ) ); ?>">Family Home</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/smart-tech/' ) ); ?>">Smart Tech</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/cleaning-odor/' ) ); ?>">Cleaning & Odor</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>">Services & Insurance</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/pet-hair-cleaning/' ) ); ?>">Pet Hair</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/pet-odor-stain-removal/' ) ); ?>">Odor &amp; Stains</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/cleaning-odor/' ) ); ?>">Product Guides</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/how-we-test/' ) ); ?>">How We Test</a></li>
           </ul>
           <?php
         }
@@ -75,8 +70,8 @@ if ( 'go' === $pethomescout_body_content_type ) {
       </nav>
 
       <div class="header-actions">
-        <a href="<?php echo esc_url( home_url( '/services-insurance/' ) ); ?>" class="btn btn-secondary">Preview service flow</a>
-        <a href="<?php echo esc_url( home_url( '/pet-tech-selector/' ) ); ?>" class="btn btn-primary">Use selector</a>
+        <a href="<?php echo esc_url( home_url( '/how-we-test/' ) ); ?>" class="btn btn-secondary">Evidence standards</a>
+        <a href="<?php echo esc_url( home_url( '/pet-home-cleaning-selector/' ) ); ?>" class="btn btn-primary">Use selector</a>
       </div>
     </div>
   </header>

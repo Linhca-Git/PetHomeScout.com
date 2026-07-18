@@ -110,6 +110,10 @@ function pethomescout_current_path() {
  */
 function pethomescout_scripts() {
 	$path = pethomescout_current_path();
+	$asset_version = static function ( $relative_path ) {
+		$absolute_path = get_template_directory() . '/' . ltrim( $relative_path, '/' );
+		return file_exists( $absolute_path ) ? (string) filemtime( $absolute_path ) : wp_get_theme()->get( 'Version' );
+	};
 
 	// Load the display and UI fonts as a direct stylesheet instead of a CSS @import.
 	wp_enqueue_style(
@@ -120,10 +124,16 @@ function pethomescout_scripts() {
 	);
 
 	// Enqueue parent stylesheet.
-	wp_enqueue_style( 'pethomescout-style', get_stylesheet_uri(), array(), '1.0.1' );
+	$theme_stylesheet = get_stylesheet_directory() . '/style.css';
+	wp_enqueue_style(
+		'pethomescout-style',
+		get_stylesheet_uri(),
+		array(),
+		file_exists( $theme_stylesheet ) ? (string) filemtime( $theme_stylesheet ) : wp_get_theme()->get( 'Version' )
+	);
 
 	// Enqueue global main.js.
-	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), '1.0.1', true );
+	wp_enqueue_script( 'pethomescout-main', get_template_directory_uri() . '/js/main.js', array(), $asset_version( 'js/main.js' ), true );
 	wp_add_inline_script(
 		'pethomescout-main',
 		"window.petHomeScoutTrack=window.petHomeScoutTrack||function(eventName,details){var path=window.location.pathname||'/';var pageType=path==='/'?'home':(path.split('/').filter(Boolean)[0]||'page');var payload=Object.assign({event:eventName,page_path:path,page_type:pageType,content_type:document.body?document.body.getAttribute('data-content-type')||pageType:pageType},details||{});window.dataLayer=window.dataLayer||[];window.dataLayer.push(payload);window.dispatchEvent(new CustomEvent('pethomescout:event',{detail:payload}));};",
@@ -136,7 +146,7 @@ function pethomescout_scripts() {
 		'pet-sitting',
 	);
 	if ( in_array( $path, $lead_demo_routes, true ) ) {
-		wp_enqueue_script( 'pethomescout-lead-demo', get_template_directory_uri() . '/js/lead-demo.js', array(), '1.0.1', true );
+		wp_enqueue_script( 'pethomescout-lead-demo', get_template_directory_uri() . '/js/lead-demo.js', array(), $asset_version( 'js/lead-demo.js' ), true );
 	}
 
 	$hub_filter_routes = array(
@@ -147,11 +157,11 @@ function pethomescout_scripts() {
 		'robot-vacuums-for-pet-hair',
 	);
 	if ( in_array( $path, $hub_filter_routes, true ) ) {
-		wp_enqueue_script( 'pethomescout-hub-filter', get_template_directory_uri() . '/js/hub-filter.js', array(), '1.0.1', true );
+		wp_enqueue_script( 'pethomescout-hub-filter', get_template_directory_uri() . '/js/hub-filter.js', array(), $asset_version( 'js/hub-filter.js' ), true );
 	}
 
-	if ( 'pet-tech-selector' === $path ) {
-		wp_enqueue_script( 'pethomescout-selector', get_template_directory_uri() . '/js/selector.js', array(), '1.0.1', true );
+	if ( in_array( $path, array( 'pet-tech-selector', 'pet-home-cleaning-selector' ), true ) ) {
+		wp_enqueue_script( 'pethomescout-selector', get_template_directory_uri() . '/js/selector.js', array(), $asset_version( 'js/selector.js' ), true );
 	}
 
 	// Front-end config only. MVP lead forms are demo-only and do not submit PII.
@@ -219,18 +229,11 @@ function pethomescout_plain_preview_sitemap_xml() {
 
 	$paths = array(
 		'/',
-		'/family-home/',
-		'/smart-tech/',
-		'/smart-tech-comparison/',
 		'/cleaning-odor/',
-		'/services-insurance/',
-		'/robot-vacuums-for-pet-hair/',
+		'/pet-hair-cleaning/',
+		'/pet-odor-stain-removal/',
 		'/best-robot-vacuum-for-dog-hair/',
-		'/pet-tech-selector/',
-		'/pet-insurance/',
-		'/mobile-pet-grooming/',
-		'/pet-odor-carpet-cleaning/',
-		'/pet-sitting/',
+		'/pet-home-cleaning-selector/',
 		'/about/',
 		'/methodology/',
 		'/how-we-test/',
@@ -258,8 +261,17 @@ add_action( 'template_redirect', 'pethomescout_plain_preview_sitemap_xml', 0 );
  */
 function pethomescout_redirect_legacy_selector_routes() {
 	$path = pethomescout_current_path();
+	$canonical_route_redirects = array(
+		'robot-vacuums-for-pet-hair' => '/pet-hair-cleaning/',
+		'evidence-standards'         => '/how-we-test/',
+	);
+	if ( isset( $canonical_route_redirects[ $path ] ) ) {
+		wp_safe_redirect( home_url( $canonical_route_redirects[ $path ] ), 301 );
+		exit;
+	}
+
 	if ( in_array( $path, array( 'tool', 'matchmaker', 'robot-vacuum-selector' ), true ) ) {
-		wp_safe_redirect( home_url( '/pet-tech-selector/' ), 301 );
+		wp_safe_redirect( home_url( '/pet-home-cleaning-selector/' ), 301 );
 		exit;
 	}
 
@@ -299,6 +311,8 @@ function pethomescout_disable_preview_route_canonical( $redirect_url ) {
 		'family-home', 'about', 'methodology', 'affiliate-disclosure',
 		'advertising-disclosure', 'privacy-policy', 'terms',
 		'do-not-sell-or-share', 'how-we-test', 'contact',
+		'pet-hair-cleaning', 'pet-odor-stain-removal',
+		'pet-home-cleaning-selector', 'evidence-standards',
 	);
 	return in_array( pethomescout_current_path(), $preview_routes, true ) ? false : $redirect_url;
 }
@@ -345,6 +359,10 @@ function pethomescout_preview_template_routes( $template ) {
 		'pet-sitting'                => 'page-pet-sitting.php',
 		'pet-odor-carpet-cleaning'   => 'page-pet-odor-cleaning.php',
 		'cleaning-odor'              => 'page-cleaning-hub.php',
+		'pet-hair-cleaning'          => 'page-robot-vacuums-for-pet-hair.php',
+		'pet-odor-stain-removal'     => 'page-cleaning-hub.php',
+		'pet-home-cleaning-selector' => 'page-tool-matchmaker.php',
+		'evidence-standards'         => 'page-how-we-test.php',
 		'smart-tech'                => 'page-smart-tech-hub.php',
 		'smart-tech-comparison'     => 'page-smart-tech.php',
 		'pet-tech-selector'          => 'page-robot-vacuum-selector.php',
@@ -361,6 +379,23 @@ function pethomescout_preview_template_routes( $template ) {
 		'how-we-test'               => 'page-how-we-test.php',
 		'contact'                   => 'page-contact.php',
 	);
+	$future_routes = array(
+		'services-insurance',
+		'pet-insurance',
+		'pet-insurance-for-french-bulldogs',
+		'mobile-pet-grooming',
+		'pet-sitting',
+		'pet-odor-carpet-cleaning',
+		'smart-tech',
+		'smart-tech-comparison',
+		'pet-tech-selector',
+		'family-home',
+	);
+	if ( ! pethomescout_is_preview_host() ) {
+		foreach ( $future_routes as $future_route ) {
+			unset( $routes[ $future_route ] );
+		}
+	}
 
 	if ( isset( $routes[ $path ] ) ) {
 		$candidate = get_template_directory() . '/' . $routes[ $path ];
@@ -380,7 +415,11 @@ add_filter( 'template_include', 'pethomescout_preview_template_routes', 99 );
 function pethomescout_preview_document_title( $parts ) {
 	$path = pethomescout_current_path();
 	$titles = array(
-		''                              => 'PetHomeScout: Product Research & Services for Pet-Friendly Homes',
+		''                              => 'PetHomeScout | Pet Hair, Odor & Stain Solutions',
+		'pet-hair-cleaning'             => 'Pet Hair Cleaning Guide for Dog & Cat Homes | PetHomeScout',
+		'pet-odor-stain-removal'        => 'Pet Odor & Stain Removal Guide | PetHomeScout',
+		'pet-home-cleaning-selector'    => 'Pet Home Cleaning System Selector | PetHomeScout',
+		'evidence-standards'            => 'PetHomeScout Evidence Standards | How We Research',
 		'services-insurance'            => 'Pet Insurance & Local Pet Care Guides | PetHomeScout',
 		'pet-insurance'                 => 'Compare Pet Insurance Quote Factors | PetHomeScout',
 		'pet-insurance-for-french-bulldogs' => 'Pet Insurance for French Bulldogs | PetHomeScout',
@@ -421,12 +460,16 @@ add_filter( 'document_title_parts', 'pethomescout_preview_document_title' );
  */
 function pethomescout_rank_math_preview_metadata() {
 	$path = pethomescout_current_path();
-	if ( ! pethomescout_is_preview_host() ) {
+	if ( get_queried_object_id() ) {
 		return array();
 	}
 
 	$descriptions = array(
-		''                                => 'Compare pet-home products, smart technology, cleaning solutions, insurance factors, and local care services for U.S. households with dogs and cats.',
+		''                                => 'Independent, evidence-led guides to help U.S. pet owners choose solutions for pet hair, odor and stains in homes with dogs and cats.',
+		'pet-hair-cleaning'               => 'Compare practical pet-hair cleaning systems by flooring, shedding load, maintenance burden, and documented evidence.',
+		'pet-odor-stain-removal'          => 'Use source-first guidance to compare pet odor and stain solutions for carpets, upholstery, and hard floors.',
+		'pet-home-cleaning-selector'      => 'Build a practical pet-home cleaning sequence using your problem type, flooring, cleanup load, and preferred level of effort.',
+		'evidence-standards'              => 'See how PetHomeScout labels research, manufacturer claims, founder testing, limitations, and last-reviewed dates.',
 		'services-insurance'             => 'Explore pet insurance factors and local pet-care service guides for U.S. households, with privacy-first demo quote flows.',
 		'pet-insurance'                  => 'Review policy factors, exclusions, waiting periods, and consent details before requesting pet insurance quotes.',
 		'mobile-pet-grooming'            => 'Learn what to compare when evaluating mobile pet grooming services, including price factors and provider questions.',
@@ -439,12 +482,21 @@ function pethomescout_rank_math_preview_metadata() {
 		'best-robot-vacuum-for-dog-hair' => 'Research-led robot vacuum picks for homes with dog hair, carpet, and mixed floors.',
 		'robot-vacuums-for-pet-hair'     => 'Start with pet hair, flooring, maintenance, and evidence status before comparing robot vacuum fixtures.',
 		'pet-tech-selector'              => 'Preview a fixture-based pet tech selector for matching household, pet, and floor conditions.',
+		'about'                          => 'Learn how PetHomeScout creates independent, evidence-labeled guidance for cleaner homes with dogs and cats.',
+		'methodology'                    => 'Review the PetHomeScout decision standards for evidence labels, limitations, and research-led recommendations.',
+		'how-we-test'                    => 'See how PetHomeScout separates founder-tested records from research-led guidance and documents product limitations.',
+		'affiliate-disclosure'           => 'Understand how PetHomeScout may earn affiliate compensation without changing its editorial standards.',
+		'advertising-disclosure'         => 'Review PetHomeScout advertising and commercial relationship disclosure standards.',
+		'privacy-policy'                 => 'Read how PetHomeScout handles privacy, demo form data, and future service-matching information.',
+		'terms'                          => 'Review the terms for using PetHomeScout research, tools, and service information.',
+		'do-not-sell-or-share'           => 'Review PetHomeScout privacy choices for future sale or sharing of personal information.',
+		'contact'                        => 'Contact PetHomeScout for editorial questions, partnership inquiries, support, and privacy requests.',
 	);
 	return isset( $descriptions[ $path ] ) ? array( 'description' => $descriptions[ $path ] ) : array();
 }
 
 function pethomescout_rank_math_preview_title( $title ) {
-	if ( ! pethomescout_is_preview_host() ) {
+	if ( get_queried_object_id() && false === stripos( $title, 'Page Not Found' ) ) {
 		return $title;
 	}
 	$parts = pethomescout_preview_document_title( array( 'title' => $title, 'site' => get_bloginfo( 'name' ) ) );
@@ -462,7 +514,7 @@ function pethomescout_rank_math_preview_canonical( $canonical ) {
 	if ( ! empty( $canonical ) ) {
 		$GLOBALS['pethomescout_rank_math_has_canonical'] = true;
 	}
-	if ( ! pethomescout_is_preview_host() ) {
+	if ( get_queried_object_id() || empty( pethomescout_rank_math_preview_metadata() ) ) {
 		return $canonical;
 	}
 	$path = pethomescout_current_path();
@@ -488,6 +540,30 @@ function pethomescout_rank_math_schema_probe( $data ) {
 	return $data;
 }
 add_filter( 'rank_math/json_ld', 'pethomescout_rank_math_schema_probe', 5 );
+
+function pethomescout_rank_math_organization_logo( $data ) {
+	$logo_url = get_site_icon_url( 512 );
+	if ( ! $logo_url || ! is_array( $data ) ) {
+		return $data;
+	}
+
+	foreach ( $data as &$entity ) {
+		if ( ! is_array( $entity ) || empty( $entity['@type'] ) || ! empty( $entity['logo'] ) ) {
+			continue;
+		}
+		$types = (array) $entity['@type'];
+		if ( in_array( 'Organization', $types, true ) ) {
+			$entity['logo'] = array(
+				'@type' => 'ImageObject',
+				'url'   => $logo_url,
+			);
+		}
+	}
+	unset( $entity );
+
+	return $data;
+}
+add_filter( 'rank_math/json_ld', 'pethomescout_rank_math_organization_logo', 20 );
 
 /**
  * Rank Math does not emit description tags for the theme's synthetic preview
@@ -527,7 +603,7 @@ function pethomescout_rank_math_preview_head_fallback() {
 	$schema     = array(
 		'@context' => 'https://schema.org',
 		'@graph'   => array(
-			array( '@type' => 'Organization', '@id' => $site_url . '#organization', 'name' => 'PetHomeScout', 'url' => $site_url ),
+			array( '@type' => 'Organization', '@id' => $site_url . '#organization', 'name' => 'PetHomeScout', 'url' => $site_url, 'logo' => array( '@type' => 'ImageObject', 'url' => get_site_icon_url( 512, get_template_directory_uri() . '/assets/pethomescout-site-icon-1024.png' ) ) ),
 			array( '@type' => 'WebSite', '@id' => $site_url . '#website', 'url' => $site_url, 'name' => 'PetHomeScout', 'publisher' => array( '@id' => $site_url . '#organization' ) ),
 			array( '@type' => 'WebPage', '@id' => $page_url . '#webpage', 'url' => $page_url, 'name' => pethomescout_rank_math_preview_title( get_bloginfo( 'name' ) ), 'description' => $metadata['description'], 'isPartOf' => array( '@id' => $site_url . '#website' ) ),
 			array( '@type' => 'BreadcrumbList', 'itemListElement' => array( array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $site_url ), array( '@type' => 'ListItem', 'position' => 2, 'name' => ucwords( str_replace( '-', ' ', basename( $path ) ) ), 'item' => $page_url ) ) ),
