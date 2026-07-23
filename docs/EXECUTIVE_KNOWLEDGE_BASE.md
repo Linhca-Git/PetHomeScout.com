@@ -8,6 +8,14 @@ PetHomeScout is an independent pet-technology and pet-friendly-home decision eng
 
 Market: United States only · US English · USD · sq ft, inches, lbs · ZIP codes.
 
+Supporting implementation contracts:
+
+- `docs/PROJECT_BRIEF.md` — current MVP implementation direction.
+- `docs/DATA_MODEL_AND_GO_SYSTEM_PLAN.md` — approval-required backend data and `/go/` system plan.
+- `docs/TRACKING_EVENT_CONTRACT.md` — MVP analytics event contract and no-credential rule.
+- `docs/FOUNDER_TEST_RUBRIC.md` — evidence rules for founder-tested claims.
+- `docs/LAUNCH_READINESS_CHECKLIST.md` — local, staging, and production launch gates.
+
 ## Customer portrait
 
 The primary decision-maker is a US woman aged roughly 35–65. She treats pets as family, spends carefully on higher-ticket home and pet technology, and searches for evidence before purchasing. Her trust signals are clarity, emotional warmth, transparent commercial relationships, practical tradeoffs, and a feeling that the recommendation understands her home.
@@ -40,7 +48,7 @@ Design implication: pair editorial warmth with fast data scanning. Every commerc
 
 - Display: `Fraunces` for warm editorial headings and memorable section titles.
 - UI/data: `Nunito Sans` for rounded, accessible, friendly body copy, buttons, labels, specs, and navigation.
-- Palette: deep navy for authority, cobalt/slate blue for action and links, warm sage for calm/success, soft terracotta for human warmth, amber for disclosures, and pale blue-gray surfaces.
+- Palette: deep navy for authority, cobalt blue for actions and tools, warm golden orange for household warmth and brand accents, amber for disclosures, and pale blue-gray surfaces. Reserve green for isolated success states only; it is not part of the primary brand lockup.
 - Use recognizable line or duotone icons for pets, home, cleaning, safety, insurance, and tools. Avoid childish decoration and abstract icon glyphs.
 - Desktop composition: utility bar → clean navigation → two-column hero → category rail → four-card picks → three editorial lists → trust section → newsletter CTA → legal footer.
 - Keep CTAs visible, card density moderate, and long content easy to scan on mobile. Tables should scroll inside their own container instead of causing page-wide overflow.
@@ -49,7 +57,9 @@ Design implication: pair editorial warmth with fast data scanning. Every commerc
 
 Preferred hero direction: “Make smarter choices. Build a better pet home.”
 
-Preferred service CTA: “Need local help? Find trusted providers in seconds.”
+SEO homepage introduction: “Practical product research, comparison tools, and service guides for U.S. households with dogs and cats—covering cleaning, smart pet tech, home safety, and pet insurance.”
+
+Preferred service CTA: “Need local help? Preview the service checklist.”
 
 Use language such as “best suited for”, “based on published specifications”, and “compare these factors”. Avoid fake testing, guaranteed outcomes, fake ratings, or claims that one product is best for everyone.
 
@@ -64,3 +74,9 @@ Use language such as “best suited for”, “based on published specifications
 ## Five-year operating principle
 
 The asset grows through trust and topical authority, not ad density. Each new page must strengthen a hub, answer a real US search intent, or improve a measured conversion path.
+
+## Hyper-niche article and cross-monetization rules
+
+Articles may be classified by primary hub, user intent, pet type, breed, hair length, shedding level, floor/carpet type, home size, children in the home, problem type, product category, evidence status, and last-reviewed date. These fields support narrow decisions such as a robot vacuum for a heavy-shedding breed on thick carpet or insurance factors for a breed/state context.
+
+Cross-monetization is opt-in. A service fallback requires a selected related service page, a problem type, a written relevance reason, and an explicit enable flag. It renders after the article's primary content and affiliate action, never above a quick verdict or as an unrelated form. Automatic keyword linking and mass-generated breed/city pages are prohibited.

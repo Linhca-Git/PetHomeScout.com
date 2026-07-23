@@ -1,0 +1,5 @@
+PetHomeScout review build validation
+/go/ behavior: PASS
+Affiliate destinations are placeholder/admin-controlled only.
+Direct affiliate URL scan: 0 matching theme files.
+Pending offers render disabled controls; active offers are designed for sponsored/nofollow internal redirects.

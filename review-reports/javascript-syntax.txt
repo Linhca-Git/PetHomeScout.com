@@ -1,0 +1,4 @@
+PetHomeScout review build validation
+JavaScript syntax: PASS
+Theme JavaScript files checked: all
+Failures: 0

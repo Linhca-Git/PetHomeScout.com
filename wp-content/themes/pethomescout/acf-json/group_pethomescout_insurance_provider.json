@@ -1,0 +1,16 @@
+{
+  "key": "group_pethomescout_insurance_provider",
+  "title": "PetHomeScout Insurance Provider Record",
+  "fields": [
+    {"key":"field_insurance_provider_name","label":"Provider Name","name":"provider_name","type":"text","required":1},
+    {"key":"field_insurance_network","label":"Affiliate or Partner Network","name":"partner_network","type":"text"},
+    {"key":"field_insurance_approval","label":"Approval Status","name":"approval_status","type":"select","choices":{"pending":"Pending","approved":"Approved","paused":"Paused","rejected":"Rejected"}},
+    {"key":"field_insurance_states","label":"Covered States or Scope","name":"covered_states","type":"textarea","rows":3},
+    {"key":"field_insurance_consent","label":"Consent Requirements","name":"consent_requirements","type":"textarea","rows":4},
+    {"key":"field_insurance_routing","label":"Routing Status","name":"routing_status","type":"select","choices":{"demo_only":"Demo only","pending":"Pending provider agreement","approved":"Approved for routing","paused":"Paused"}},
+    {"key":"field_insurance_notes","label":"Partner Notes","name":"partner_notes","type":"textarea","rows":4}
+  ],
+  "location": [[{"param":"post_type","operator":"==","value":"insurance_provider"}]],
+  "active": true,
+  "show_in_rest": 0
+}

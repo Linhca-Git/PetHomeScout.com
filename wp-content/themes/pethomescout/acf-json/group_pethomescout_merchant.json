@@ -1,0 +1,15 @@
+{
+  "key": "group_pethomescout_merchant",
+  "title": "PetHomeScout Merchant Record",
+  "fields": [
+    {"key":"field_merchant_slug","label":"Merchant Slug","name":"merchant_slug","type":"text","required":1},
+    {"key":"field_merchant_network","label":"Affiliate Network","name":"affiliate_network","type":"select","choices":{"impact":"Impact","cj":"CJ Affiliate","awin":"Awin","partnerize":"Partnerize","commission_factory":"Commission Factory","direct":"Direct program","other":"Other"}},
+    {"key":"field_merchant_status","label":"Program Status","name":"program_status","type":"select","choices":{"pending":"Pending","approved":"Approved","paused":"Paused","rejected":"Rejected"}},
+    {"key":"field_merchant_notes","label":"Manager or Program Notes","name":"manager_notes","type":"textarea","rows":4},
+    {"key":"field_merchant_go_path","label":"Default /go/ Path","name":"default_go_path","type":"text","instructions":"Internal path only. Do not paste a direct merchant URL here."},
+    {"key":"field_merchant_last_checked","label":"Last Checked","name":"last_checked","type":"date_picker","return_format":"Y-m-d","display_format":"F j, Y"}
+  ],
+  "location": [[{"param":"post_type","operator":"==","value":"merchant"}]],
+  "active": true,
+  "show_in_rest": 0
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "layout": { "contentSize": "960px", "wideSize": "1320px" },
+    "color": {
+      "custom": false,
+      "defaultPalette": false,
+      "palette": [
+        { "slug": "navy", "color": "#0f172a", "name": "Deep Navy" },
+        { "slug": "cobalt", "color": "#2563cb", "name": "Cobalt" },
+        { "slug": "sage", "color": "#16a34a", "name": "Warm Sage" },
+        { "slug": "terracotta", "color": "#f43f5e", "name": "Terracotta" },
+        { "slug": "amber", "color": "#f59e0b", "name": "Disclosure Amber" },
+        { "slug": "off-white", "color": "#f8fafc", "name": "Warm Off-white" }
+      ]
+    },
+    "spacing": { "units": ["px", "%", "em", "rem", "vw", "vh"] },
+    "typography": {
+      "dropCap": false,
+      "fontFamilies": [
+        { "fontFamily": "Fraunces, Georgia, serif", "slug": "display", "name": "Fraunces Display" },
+        { "fontFamily": "Nunito Sans, system-ui, sans-serif", "slug": "ui", "name": "Nunito Sans UI" }
+      ],
+      "fontSizes": [
+        { "slug": "small", "size": "0.875rem", "name": "Small" },
+        { "slug": "body", "size": "1rem", "name": "Body" },
+        { "slug": "large", "size": "1.25rem", "name": "Large" }
+      ]
+    }
+  },
+  "styles": {
+    "color": { "background": "#f8fafc", "text": "#0f172a" },
+    "typography": { "fontFamily": "Nunito Sans, system-ui, sans-serif", "fontSize": "1rem", "lineHeight": "1.6" }
+  }
+}

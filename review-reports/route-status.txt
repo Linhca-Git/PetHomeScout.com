@@ -1,0 +1,17 @@
+PetHomeScout review build validation
+Complete nine-route HTTP/SEO smoke test: PASS
+Preview environment: http://127.0.0.1:9400
+All routes use noindex,nofollow. Exactly one canonical tag and JSON-LD were detected on every route.
+
+Route | HTTP | H1 | Canonical | JSON-LD | Form/CTA markers
+/ | 200 | 1 | yes (1) | 1 | 12
+/services-insurance/ | 200 | 1 | yes (1) | 1 | 13
+/smart-tech/ | 200 | 1 | yes (1) | 1 | 1
+/cleaning-odor/ | 200 | 1 | yes (1) | 1 | 2
+/family-home/ | 200 | 1 | yes (1) | 1 | 1
+/pet-tech-selector/ | 200 | 1 | yes (1) | 1 | 4
+/mobile-pet-grooming/ | 200 | 1 | yes (1) | 1 | 28
+/pet-insurance-for-french-bulldogs/ | 200 | 1 | yes (1) | 1 | 2
+/pet-odor-cleaning/ | 200 | 1 | yes (1) | 1 | 24
+
+Accessibility/form checks: representative form routes rendered labels/consent markers; demo form remains non-persistent. Final browser keyboard/viewport pass remains required on the hosted review environment.

@@ -1,0 +1,23 @@
+{
+  "key": "group_pethomescout_product_test",
+  "title": "PetHomeScout Product Test Record",
+  "fields": [
+    {"key":"field_test_related_product","label":"Related Product","name":"related_product","type":"post_object","post_type":["pet_product"],"return_format":"id","ui":1},
+    {"key":"field_test_date","label":"Test Date","name":"test_date","type":"date_picker","return_format":"Y-m-d","display_format":"F j, Y"},
+    {"key":"field_test_tester","label":"Tester","name":"tester","type":"text"},
+    {"key":"field_test_household","label":"Household Context","name":"household_context","type":"textarea","rows":4},
+    {"key":"field_test_pet_type","label":"Pet Type","name":"pet_type","type":"select","choices":{"dog":"Dog","cat":"Cat","multiple":"Multiple pets","other":"Other"}},
+    {"key":"field_test_breed","label":"Pet Breed or Mix","name":"pet_breed","type":"text"},
+    {"key":"field_test_hair","label":"Hair or Coat Conditions","name":"hair_conditions","type":"textarea","rows":3},
+    {"key":"field_test_floor","label":"Floor Type","name":"floor_type","type":"select","choices":{"carpet":"Carpet","hardwood":"Hard floors","mixed":"Mixed floors","other":"Other"}},
+    {"key":"field_test_setup","label":"Setup Notes","name":"setup_notes","type":"textarea","rows":4},
+    {"key":"field_test_outcomes","label":"Observed Outcomes","name":"observed_outcomes","type":"textarea","rows":5},
+    {"key":"field_test_friction","label":"Ownership Friction","name":"ownership_friction","type":"textarea","rows":4},
+    {"key":"field_test_limitations","label":"Limitations","name":"limitations","type":"textarea","rows":4},
+    {"key":"field_test_evidence","label":"Evidence Assets or Notes","name":"evidence_assets","type":"textarea","rows":4},
+    {"key":"field_test_complete","label":"Completed Rubric","name":"completed_rubric","type":"true_false","message":"This record has all required rubric fields.","ui":1}
+  ],
+  "location": [[{"param":"post_type","operator":"==","value":"product_test"}]],
+  "active": true,
+  "show_in_rest": 0
+}

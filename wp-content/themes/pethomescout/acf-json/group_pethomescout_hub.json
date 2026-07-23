@@ -1,0 +1,20 @@
+{
+  "key": "group_pethomescout_hub",
+  "title": "PetHomeScout Hub Editorial Controls",
+  "fields": [
+    {"key":"field_hub_eyebrow","label":"Eyebrow","name":"hub_eyebrow","type":"text"},
+    {"key":"field_hub_title","label":"Hub Title","name":"hub_title","type":"text","instructions":"Optional display title. Leave blank to use the approved template fallback."},
+    {"key":"field_hub_intro","label":"Hub Introduction","name":"hub_intro","type":"textarea","rows":4},
+    {"key":"field_hub_featured_guides","label":"Featured Guides","name":"featured_guides","type":"post_object","post_type":["post"],"return_format":"id","multiple":1,"ui":1},
+    {"key":"field_hub_featured_products","label":"Featured Product Records","name":"featured_products","type":"post_object","post_type":["pet_product"],"return_format":"id","multiple":1,"ui":1,"instructions":"Optional. Select backend product records to render editable evidence and offer cards; leave blank to use the safe fixture fallback."},
+    {"key":"field_hub_featured_comparisons","label":"Featured Comparisons","name":"featured_comparisons","type":"post_object","post_type":["post"],"return_format":"id","multiple":1,"ui":1},
+    {"key":"field_hub_featured_tools","label":"Featured Tools","name":"featured_tools","type":"post_object","post_type":["page"],"return_format":"id","multiple":1,"ui":1},
+    {"key":"field_hub_featured_services","label":"Featured Services","name":"featured_services","type":"post_object","post_type":["page"],"return_format":"id","multiple":1,"ui":1},
+    {"key":"field_hub_trust_note","label":"Trust Note","name":"hub_trust_note","type":"textarea","rows":3},
+    {"key":"field_hub_cta_label","label":"Primary CTA Label","name":"hub_cta_label","type":"text"},
+    {"key":"field_hub_cta_url","label":"Primary CTA URL","name":"hub_cta_url","type":"url"}
+  ],
+  "location": [[{"param":"post_template","operator":"==","value":"page-family-home.php"}],[{"param":"post_template","operator":"==","value":"page-smart-tech-hub.php"}],[{"param":"post_template","operator":"==","value":"page-cleaning-hub.php"}],[{"param":"post_template","operator":"==","value":"page-services-insurance.php"}]],
+  "active": true,
+  "show_in_rest": 1
+}

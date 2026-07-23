@@ -1,32 +1,87 @@
-<?php get_header(); ?>
-<main>
-	<section class="hero hero-editorial">
-		<div class="container hero-editorial-grid">
-			<div class="hero-copy-block">
-				<span class="eyebrow">America's independent pet-home authority</span>
-				<h1>Make smarter choices.<br><span>Build a better</span> pet home.</h1>
-				<p class="hero-copy">Independent, data-driven reviews and interactive tools to help pet parents build a cleaner, safer, and happier home environment.</p>
-				<div class="button-row"><a class="button" href="#guides">Explore buying guides <span aria-hidden="true">→</span></a><a class="button button-secondary" href="#categories">Browse categories</a></div>
-				<div class="trust-row"><span><i class="dashicons dashicons-shield"></i> Independent &amp; research-first</span><span><i class="dashicons dashicons-yes-alt"></i> Clear, honest guidance</span><span><i class="dashicons dashicons-lock"></i> Transparent disclosures</span></div>
-			</div>
-			<div class="hero-feature-card">
-				<div class="hero-feature-image"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/hero-pet-home.png' ); ?>" alt="Golden retriever relaxing beside a robot vacuum in a modern home"><span class="score-badge">Editor's pick</span></div>
-				<div class="hero-feature-content"><div class="feature-kicker">Featured guide · Smart cleaning</div><h2>Robot vacuums that keep up with real pet hair</h2><p>Compare the details that matter when paws, fur, and flooring meet every day.</p><div class="feature-bottom"><strong><span class="score-number">9.2</span>/10 <small>ScoutScore</small></strong><a class="button" href="<?php echo esc_url( home_url( '/robot-vacuums-for-pet-hair/' ) ); ?>">Read guide <span aria-hidden="true">→</span></a></div></div>
-			</div>
-		</div>
-	</section>
+<?php
+/**
+ * Phase 1 homepage: broad brand, narrow public launch.
+ *
+ * @package PetHomeScout
+ */
 
-	<section class="category-rail" id="categories"><div class="container"><div class="section-label"><span>Explore categories</span><a href="<?php echo esc_url( home_url( '/categories/' ) ); ?>">View all <span aria-hidden="true">→</span></a></div><div class="category-grid">
-		<?php $categories = array( array( 'dashicons-vacuum-cleaner', 'Robot vacuums', 'Smarter cleaning for every home.' , '/robot-vacuums-for-pet-hair/' ), array( 'dashicons-pets', 'Pet tech', 'Care and comfort for your pets.', '/smart-tech/' ), array( 'dashicons-admin-home', 'Smart home', 'Automate and control your home.', '/family-home/' ), array( 'dashicons-shield', 'Dog safety', 'Protect what matters most.', '/dog-safety-tech/' ), array( 'dashicons-heart', 'Pet insurance', 'Plan for the unexpected.', '/services-insurance/' ), array( 'dashicons-admin-tools', 'Cleaning', 'Tackle fur, stains, and odor.', '/cleaning-odor/' ) ); foreach ( $categories as $category ) : ?><a class="category-card" href="<?php echo esc_url( home_url( $category[3] ) ); ?>"><span class="category-icon dashicons <?php echo esc_attr( $category[0] ); ?>" aria-hidden="true"></span><strong><?php echo esc_html( $category[1] ); ?></strong><span><?php echo esc_html( $category[2] ); ?></span></a><?php endforeach; ?>
-	</div></div></section>
+get_header();
+?>
 
-	<section class="section section-picks" id="guides"><div class="container"><div class="section-label"><span>Editor's picks</span><a href="<?php echo esc_url( home_url( '/buying-guides/' ) ); ?>">View all picks <span aria-hidden="true">→</span></a></div><div class="pick-grid">
-		<?php $picks = array( array( 'Robot vacuums', 'Roborock pet-hair guide', 'Best for automated floor care.', '9.2' ), array( 'Pet tech', 'The calm-home camera guide', 'Better ways to check in from anywhere.', '8.9' ), array( 'Smart home', 'Pet-safe entry systems', 'Simple control for everyday routines.', '8.8' ), array( 'Cleaning', 'Air quality for cat homes', 'Fresh-feeling rooms without guesswork.', '8.6' ) ); foreach ( $picks as $index => $pick ) : ?><article class="pick-card"><div class="pick-image pick-image-<?php echo esc_attr( $index + 1 ); ?>"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/hero-pet-home.png' ); ?>" alt="" loading="lazy"><span class="rank-number"><?php echo esc_html( $index + 1 ); ?></span><span class="pick-score"><?php echo esc_html( $pick[3] ); ?><small>score</small></span></div><div class="pick-body"><span class="tag"><?php echo esc_html( $pick[0] ); ?></span><h3><a href="#"><?php echo esc_html( $pick[1] ); ?></a></h3><p><?php echo esc_html( $pick[2] ); ?></p></div></article><?php endforeach; ?>
-	</div></div></section>
+<main id="main-content">
+  <section class="hero-split">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <span class="tool-badge">CLEAN PET HOME</span>
+        <h1>Find the right solution for pet hair, odor and stains.</h1>
+        <p class="lead">Evidence-led product guides and practical cleaning decisions for U.S. homes with dogs and cats.</p>
+        <div class="hero-cta-row" aria-label="Homepage actions">
+          <a class="btn btn-primary" href="<?php echo esc_url( home_url( '/pet-hair-cleaning/' ) ); ?>">Solve pet hair &rarr;</a>
+          <a class="btn btn-secondary" href="<?php echo esc_url( home_url( '/pet-odor-stain-removal/' ) ); ?>">Remove odor &amp; stains</a>
+        </div>
+        <div class="trust-badges-row" aria-label="Editorial standards">
+          <div class="trust-badge-item">Independent and research-first</div>
+          <div class="trust-badge-item">Evidence status shown clearly</div>
+          <div class="trust-badge-item">Commercial relationships disclosed</div>
+        </div>
+      </div>
 
-	<section class="section section-lists"><div class="container editorial-lists"><div class="list-column"><div class="section-label"><span>Latest reviews</span><a href="#">View all <span aria-hidden="true">→</span></a></div><?php $reviews = array( 'Robot vacuums for dog hair', 'Pet cameras for anxious dogs', 'How to reduce litter tracking' ); foreach ( $reviews as $review ) : ?><a class="list-item" href="#"><span class="list-thumb dashicons dashicons-media-document"></span><span><strong><?php echo esc_html( $review ); ?></strong><small>Practical takeaways for real households</small></span><b>→</b></a><?php endforeach; ?></div><div class="list-column"><div class="section-label"><span>Buying guides</span><a href="#">View all <span aria-hidden="true">→</span></a></div><?php $guides = array( 'Best robot vacuum features for pet owners', 'A calmer smart home starter guide', 'Pet insurance questions to ask first' ); foreach ( $guides as $guide ) : ?><a class="list-item" href="#"><span class="list-thumb dashicons dashicons-book-alt"></span><span><strong><?php echo esc_html( $guide ); ?></strong><small>Decision support without the jargon</small></span><b>→</b></a><?php endforeach; ?></div><div class="list-column"><div class="section-label"><span>Popular comparisons</span><a href="#">View all <span aria-hidden="true">→</span></a></div><?php $comparisons = array( array( 'Roborock pet-hair guide', 'Narwal cleaning guide' ), array( 'GPS collar', 'Wireless dog fence' ), array( 'Chewy', 'Wayfair' ) ); foreach ( $comparisons as $comparison ) : ?><a class="compare-item" href="#"><span class="compare-pill dashicons dashicons-randomize"></span><strong><?php echo esc_html( $comparison[0] ); ?></strong><b>VS</b><strong><?php echo esc_html( $comparison[1] ); ?></strong></a><?php endforeach; ?></div></div></section>
+      <aside class="editors-pick-card" aria-labelledby="phase-one-title">
+        <div class="ep-content-area">
+          <span class="ep-tag-badge">Phase 1 focus</span>
+          <h2 id="phase-one-title" class="ep-title">A cleaner home, one decision at a time</h2>
+          <p class="ep-desc">Start with the problem in your home. We connect practical guidance to the right product category without unsupported scores or fake testing.</p>
+          <a class="btn btn-primary" href="<?php echo esc_url( home_url( '/cleaning-odor/' ) ); ?>">Explore Clean Pet Home &rarr;</a>
+        </div>
+      </aside>
+    </div>
+  </section>
 
-	<section class="trust-section"><div class="container trust-grid"><div><span class="eyebrow">Our standard</span><h2>Helpful first.<br>Commercially clear.</h2></div><div class="trust-copy"><p>We explain what matters, show the tradeoffs, and keep commercial relationships visible. No fake testing claims, no mystery rankings, and no pressure to buy.</p><a href="<?php echo esc_url( home_url( '/how-we-test/' ) ); ?>">How PetHomeScout works <span aria-hidden="true">→</span></a></div></div></section>
-	<section class="newsletter"><div class="container newsletter-inner"><div><span class="newsletter-icon dashicons dashicons-email-alt" aria-hidden="true"></span><div><h2>Get smarter every week.</h2><p>New guides, useful comparisons, and pet-home ideas — straight to your inbox.</p></div></div><form class="newsletter-form" action="#" method="post"><label class="screen-reader-text" for="newsletter-email">Your email address</label><input id="newsletter-email" type="email" placeholder="Your email address"><button class="button" type="submit">Subscribe</button></form></div></section>
+  <section class="featured-tools-section" aria-labelledby="start-here-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">START WITH YOUR PROBLEM</span>
+        <h2 id="start-here-title">Focused guidance for cleaner pet homes</h2>
+        <p>Phase 1 covers two closely related household problems so every guide strengthens the same topic.</p>
+      </div>
+      <div class="tools-grid">
+        <a class="tool-banner-card" href="<?php echo esc_url( home_url( '/pet-hair-cleaning/' ) ); ?>">
+          <span class="tool-banner-icon" aria-hidden="true">1</span>
+          <h3>Pet Hair Cleaning</h3>
+          <p>Robot vacuums, carpet performance, heavy shedding, hair wrap and practical maintenance.</p>
+          <span class="btn-tool-banner">Explore pet-hair guides &rarr;</span>
+        </a>
+        <a class="tool-banner-card" href="<?php echo esc_url( home_url( '/pet-odor-stain-removal/' ) ); ?>">
+          <span class="tool-banner-icon" aria-hidden="true">2</span>
+          <h3>Odor &amp; Stain Removal</h3>
+          <p>Carpet cleaners, enzyme cleaners and step-by-step decisions for persistent pet messes.</p>
+          <span class="btn-tool-banner">Explore odor guides &rarr;</span>
+        </a>
+        <a class="tool-banner-card" href="<?php echo esc_url( home_url( '/pet-home-cleaning-selector/' ) ); ?>">
+          <span class="tool-banner-icon" aria-hidden="true">3</span>
+          <h3>Cleaning System Selector</h3>
+          <p>Match pet type, shedding, flooring and the problem you need to solve. No personal data required.</p>
+          <span class="btn-tool-banner">Use the selector &rarr;</span>
+        </a>
+        <a class="tool-banner-card" href="<?php echo esc_url( home_url( '/how-we-test/' ) ); ?>">
+          <span class="tool-banner-icon" aria-hidden="true">4</span>
+          <h3>How We Evaluate</h3>
+          <p>See our evidence labels, limitations and the rules that prevent unsupported recommendations.</p>
+          <span class="btn-tool-banner">Read our standards &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">NO FAKE PROOF</span>
+        <h2>Research-led until real testing exists</h2>
+        <p>We label manufacturer claims, published specifications and founder-tested evidence separately. Scores remain hidden when the evidence is insufficient.</p>
+      </div>
+    </div>
+  </section>
 </main>
+
 <?php get_footer(); ?>
