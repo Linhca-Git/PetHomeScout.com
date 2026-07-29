@@ -1,0 +1,7 @@
+PetHomeScout review build validation
+Preview indexing: PASS — noindex, nofollow enabled on all nine review routes.
+Canonical: PASS — all nine review routes emit exactly one canonical tag; Rank Math owns persisted Page routes and the theme fallback covers synthetic preview routes.
+JSON-LD: PASS — all nine review routes emit JSON-LD, including the homepage and French Bulldog fixture route.
+Titles: PASS — route-specific titles render once with no duplicate brand suffix.
+Commercial routes: one H1 and disclosure-before-CTA template rule.
+Rank Math preview output was tested with outbound requests blocked at runtime; production indexability requires an explicitly approved production host.

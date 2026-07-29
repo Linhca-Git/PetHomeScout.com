@@ -1,0 +1,18 @@
+{
+  "key": "group_pethomescout_home",
+  "title": "PetHomeScout Homepage Editorial Controls",
+  "fields": [
+    {"key":"field_home_eyebrow","label":"Eyebrow","name":"home_eyebrow","type":"text"},
+    {"key":"field_home_title","label":"Homepage Title","name":"home_title","type":"text","instructions":"Plain text only; the theme preserves heading styling."},
+    {"key":"field_home_intro","label":"Homepage Introduction","name":"home_intro","type":"textarea","rows":4},
+    {"key":"field_home_featured_guide","label":"Featured Guide","name":"home_featured_guide","type":"post_object","post_type":["post"],"return_format":"id","ui":1,"instructions":"Optional. Select one published guide for the homepage feature card."},
+    {"key":"field_home_featured_products","label":"Featured Product Records","name":"home_featured_products","type":"post_object","post_type":["pet_product"],"return_format":"id","multiple":1,"ui":1,"instructions":"Optional. Select product records for the Research Fixtures grid; leave blank to use the safe fixture/query fallback."},
+    {"key":"field_home_primary_cta_label","label":"Primary CTA Label","name":"home_primary_cta_label","type":"text"},
+    {"key":"field_home_primary_cta_url","label":"Primary CTA URL","name":"home_primary_cta_url","type":"url"},
+    {"key":"field_home_secondary_cta_label","label":"Secondary CTA Label","name":"home_secondary_cta_label","type":"text"},
+    {"key":"field_home_secondary_cta_url","label":"Secondary CTA URL","name":"home_secondary_cta_url","type":"url"}
+  ],
+  "location": [[{"param":"page_type","operator":"==","value":"front_page"}]],
+  "active": true,
+  "show_in_rest": 1
+}

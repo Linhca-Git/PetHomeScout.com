@@ -1,0 +1,4 @@
+PetHomeScout review build validation
+PHP lint: PASS
+Files checked: 31
+Failures: 0

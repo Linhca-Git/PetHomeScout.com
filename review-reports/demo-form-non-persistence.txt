@@ -1,0 +1,4 @@
+PetHomeScout review build validation
+Demo lead form: PASS
+No wp_insert_post, wp_mail, CRM request, REST persistence, localStorage, sessionStorage, or third-party endpoint is used by the demo path.
+Submitted values are not retained after success.

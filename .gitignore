@@ -1,0 +1,7 @@
+# Generated design/review artifacts.
+outputs/
+
+# Local/editor noise.
+.DS_Store
+Thumbs.db
+*.log
